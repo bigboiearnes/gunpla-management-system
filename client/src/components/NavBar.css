@@ -1,0 +1,52 @@
+.nav-bar-container {
+    flex: auto;
+    display: flex;
+    justify-content: space-between;
+    background-color: rgb(176, 73, 255);
+    border-radius: 15px;
+    margin: 15px
+}
+.website-title {
+    margin: auto;
+    margin-left: 10px;
+    margin-right: 10px;
+    color: white;
+    font-size: large;
+}
+
+.nav-bar-navs {
+    display: flex;
+    padding: 6px;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.nav-bar-navs a {
+    margin: 5px; 
+    color: white;
+    
+  }
+
+@media screen and (max-width: 600px) {
+    .nav-bar-navs {
+        justify-content: flex-start;
+}
+    
+    .nav-bar-navs a {
+        margin: auto;
+    }
+}
+
+.nav-bar-navs a:hover {
+    background-color: rgb(182, 182, 182);
+    padding: 5px;
+    border-radius: 7px;
+}
+
+.nav-bar-search-bar {
+    margin: 28px 14px;
+    width: 15%;
+    border-radius: 5px;
+    
+}
