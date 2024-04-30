@@ -6,6 +6,7 @@ import { Routes, Route } from 'react-router-dom';
 import NavBar from './components/NavBar';
 
 const Home = lazy(() => import('./pages/Home'));
+const Database = lazy(() => import('./pages/Database'));
 const NoMatch = lazy(() => import('./pages/NoMatch'));
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
           <Suspense fallback={<div className='container'>Loading...</div>}>
               <Routes>
                   <Route path="/" element={<Home />}/>
+                  <Route path="/database/:kitId" element={<Database />}/>
                   <Route path='*' element={<NoMatch />}/>
               </Routes>
           </Suspense>
