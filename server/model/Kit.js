@@ -15,4 +15,4 @@ const kitSchema = new mongoose.Schema({
   biography: String
 });
 
-module.exports = mongoose.model('Kit', kitSchema, 'gmsdatabase');
+module.exports = mongoose.model('Kit', kitSchema, 'gmskits');

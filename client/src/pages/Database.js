@@ -1,11 +1,11 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import useFetchKits from '../components/FetchKits';
+import useFetchKit from '../components/FetchKits';
 import { useAuth } from '../components/AuthContext';
 
 export default function Database(){
   const { kitId } = useParams();
-  const { kit, loading, error } = useFetchKits(kitId);
+  const { kit, loading, error } = useFetchKit(kitId);
   const { token } = useAuth();
 
   const handleAddToCollection = () => {
@@ -13,6 +13,7 @@ export default function Database(){
         alert('You need to log in to perform this action')
     } else {
         alert('You are logged in but this button does nothing!')
+        console.log(token)
     }
   };
 

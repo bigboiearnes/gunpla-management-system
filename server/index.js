@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
+const authenticateToken = require('./authenticateToken')
 
 const Kit = require('./model/Kit');
 const User = require ('./model/User')
@@ -31,12 +32,54 @@ app.get('/api/kits/:kitId', async (req, res) =>{
   }
 });
 
+//Fetches user data using token
+app.get('/api/user', authenticateToken, async (req, res) => {
+  try {
+    const username = req.user.username
+
+    const user = await User.findOne({ username: username})
+    
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    res.json({
+      username: user.username,
+      email: user.email
+    });
+    
+  } catch (error) {
+    console.error('Error fetching user data:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+//Fetches user using username
+app.get('/api/user/:username', async (req, res) =>{
+  try {
+    const user = await User.findOne({ username: req.params.username });
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    user.password = null
+
+    user.email = null
+    
+    res.json(user);
+  } catch (error) {
+    console.error('Error occurred while fetching kit:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 //Registers the user
 app.post('/api/register', async (req, res) =>{
   try {
     const { username, email, password } = req.body;
+    const registerDate = new Date();
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = new User({ username, email, password: hashedPassword });
+    const newUser = new User({ username, email, password: hashedPassword, registerDate });
     await newUser.save();
     res.status(201).json({ message: 'User registered successfully' });
   } catch (error) {

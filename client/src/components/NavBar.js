@@ -1,9 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
+import { useAuth } from '../components/AuthContext';
+import { fetchUserAuth } from './FetchUserAuth';
 import './NavBar.css';
 
 export default function NavBar() {
+  const { token } = useAuth(); 
   const [searchInput, setSearchInput] = useState('');
+  const [username, setUsername] = useState(null)
+
+  useEffect(() => {
+    if (token) {
+      fetchUserData(token);
+    }
+  }, [token]);
+
+  const fetchUserData = async (token) => {
+    try {
+      const userData = await fetchUserAuth(token);
+      setUsername(userData.username);
+    } catch (error) {
+      console.error('Error fetching user data:', error)
+    }
+  };
+
 
   const handleSearch = (e) => {
     if (e.key === 'Enter') {
@@ -29,10 +49,17 @@ export default function NavBar() {
         onChange={(e) => setSearchInput(e.target.value)}
         onKeyPress={handleSearch}
       />
-      <nav className='nav-bar-login-navs'>
-        <NavLink to="/register">Register</NavLink>
-        <NavLink to="/login">Log In</NavLink>
-      </nav>
+      {token ? ( // Check if user is logged in
+        <nav className='nav-bar-profile-nav'>
+          <NavLink to={`/profile/${username}`}>Profile</NavLink> 
+        </nav>
+      ) : (
+        <nav className='nav-bar-login-navs'>
+          <NavLink to="/register">Register</NavLink>
+          <NavLink to="/login">Log In</NavLink>
+        </nav>
+      )}
     </div>
   );
 }
+

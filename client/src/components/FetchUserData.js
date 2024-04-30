@@ -1,19 +1,19 @@
 import { useState, useEffect } from 'react';
 
-const useFetchKit = (kitId) => {
-  const [kit, setKit] = useState(null);
+const useFetchUser = (username) => {
+  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchKitData = async () => {
+    const fetchUserData = async () => {
       try {
-        const response = await fetch(`/api/kits/${kitId}`);
+        const response = await fetch(`/api/user/${username}`);
         if (!response.ok) {
           throw new Error('Failed to fetch data');
         }
         const data = await response.json();
-        setKit(data);
+        setUser(data);
         setLoading(false);
       } catch (error) {
         setError(error);
@@ -21,10 +21,12 @@ const useFetchKit = (kitId) => {
       }
     };
 
-    fetchKitData();
-  }, [kitId]);
+    fetchUserData();
+  }, [username]);
 
-  return { kit, loading, error };
+  return { user, loading, error };
 };
 
-export default useFetchKit;
+
+
+export default useFetchUser;

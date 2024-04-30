@@ -9,10 +9,11 @@ import NavBar from './components/NavBar';
 const Home = lazy(() => import('./pages/Home'));
 const Register = lazy(() => import('./pages/Register'));
 const LogIn = lazy(() => import('./pages/LogIn'));
+const Profile = lazy(() => import('./pages/Profile'));
 const Database = lazy(() => import('./pages/Database'));
 const NoMatch = lazy(() => import('./pages/NoMatch'));
 
-function App() {
+export default function App() {
   return (
       <AuthProvider>
           <NavBar />
@@ -21,12 +22,11 @@ function App() {
                   <Route path="/" element={<Home />}/>
                   <Route path="/register" element={<Register />}/>
                   <Route path='/login' element={<LogIn/>}/>
-                  <Route path="/database/:kitId" element={<Database />}/>
+                  <Route path='/profile/:username' element={<Profile/>}/>
+                  <Route path='/database/:kitId' element={<Database />}/>
                   <Route path='*' element={<NoMatch />}/>
               </Routes>
           </Suspense>
       </AuthProvider>
   );
 }
-
-export default App;
