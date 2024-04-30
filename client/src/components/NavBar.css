@@ -50,3 +50,33 @@
     border-radius: 5px;
     
 }
+
+.nav-bar-login-navs {
+    display: flex;
+    padding: 6px;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.nav-bar-login-navs a {
+    margin: 5px; 
+    color: white;
+    
+  }
+
+@media screen and (max-width: 600px) {
+    .nav-bar-login-navs {
+        justify-content: flex-start;
+}
+    
+    .nav-bar-login-navs a {
+        margin: auto;
+    }
+}
+
+.nav-bar-login-navs a:hover {
+    background-color: rgb(182, 182, 182);
+    padding: 5px;
+    border-radius: 7px;
+}

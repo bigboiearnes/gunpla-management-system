@@ -18,7 +18,8 @@ export default function NavBar() {
       <nav className='nav-bar-navs'>
         <NavLink to="/">Home</NavLink>
         <NavLink to="/database/HG01">Example Kit</NavLink>
-        {/* Add more navigation links as needed */}
+        <NavLink to="/database/HG01">Example Kit</NavLink>
+        <NavLink to="/database/HG01">Example Kit</NavLink>
       </nav>
       <input
         type="text"
@@ -28,7 +29,10 @@ export default function NavBar() {
         onChange={(e) => setSearchInput(e.target.value)}
         onKeyPress={handleSearch}
       />
+      <nav className='nav-bar-login-navs'>
+        <NavLink to="/register">Register</NavLink>
+        <NavLink to="/login">Log In</NavLink>
+      </nav>
     </div>
   );
 }
-
