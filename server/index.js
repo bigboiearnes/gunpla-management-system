@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const bodyParser = require('body-parser');
+const jwt = require('jsonwebtoken');
 
 const Kit = require('./model/Kit');
 const User = require ('./model/User')
@@ -10,7 +11,7 @@ const app = express();
 const port = 4000;
 
 // Connect to MongoDB
-mongoose.connect('mongodb://connorearneybs3221:IwT3a5xY75iviD3407DWDJBUPzcMYZPyCK6rdkSvhPPKnnkNDdHKNh9aVVwScgnBz6Es4EfTr1pxACDbg8AbXw==@connorearneybs3221.mongo.cosmos.azure.com:10255/universitywork?ssl=true&replicaSet=globaldb&retrywrites=false&maxIdleTimeMS=120000&appName=@connorearneybs3221@', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect('mongodb://connorearneybs3221:IwT3a5xY75iviD3407DWDJBUPzcMYZPyCK6rdkSvhPPKnnkNDdHKNh9aVVwScgnBz6Es4EfTr1pxACDbg8AbXw==@connorearneybs3221.mongo.cosmos.azure.com:10255/universitywork?ssl=true&replicaSet=globaldb&retrywrites=false&maxIdleTimeMS=120000&appName=@connorearneybs3221@')
   .then(() => console.log('Connected to MongoDB'))
   .catch(error => console.error('Error connecting to MongoDB:', error));
 
@@ -56,7 +57,13 @@ app.post('/api/login', async (req, res) =>{
     if (!passwordMatch) {
       return res.status(401).json({ error: 'Invalid username or password '});
     }
-    res.json({ message: 'Login successful' });
+    const token = jwt.sign(
+      { username: user.username }, 
+      'your-secret-key', 
+      { expiresIn: '12h' }
+    );
+
+    res.json({ message: 'Login successful', token });
   } catch (error) {
       console.error('Error occurred during login:', error);
       res.status(500).json({ error: 'Internal server error' });
