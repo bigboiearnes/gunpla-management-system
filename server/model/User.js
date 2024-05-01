@@ -5,8 +5,7 @@ const userSchema = new mongoose.Schema({
     email: {type: String, required: true, unique: true},
     password: { type: String, required: true },
     registerDate: Date,
-    biography: String,
-    collection: [String]
+    biography: String
 });
 
 module.exports = mongoose.model('User', userSchema, 'gmsusers');

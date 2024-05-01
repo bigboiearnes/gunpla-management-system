@@ -12,7 +12,8 @@ const kitSchema = new mongoose.Schema({
   boxArt: String,
   scale: String,
   accessories: [String], 
-  biography: String
+  biography: String,
+  timeline: String
 });
 
 module.exports = mongoose.model('Kit', kitSchema, 'gmskits');

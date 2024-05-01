@@ -97,6 +97,24 @@
     background-color: whit;
 }
 
+.collection-status-select {
+    margin-right: 10px;
+    border: none;
+    background-color: white;
+    padding: 10px 25px;
+    border: 2px solid purple;
+    transition-duration: 0.2s;
+    cursor: pointer;
+}
+
+
+.collection-status-select:active {
+    box-shadow: 0 3px gray;
+    transform: translateY(1px);
+    transform: translateX(-1px);
+    background-color: whit;
+}
+
 .kit-box-art {
     margin: 20px;
     width: 200px;

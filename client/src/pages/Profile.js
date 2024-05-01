@@ -1,12 +1,12 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import useFetchUser from '../components/FetchUserData';
-import { useAuth } from '../components/AuthContext';
 
-export default function Database(){
+
+export default function Profile(){
   const { username } = useParams();
   const { user, loading, error } = useFetchUser(username);
-  const { token } = useAuth();
+
 
   if (loading) {
     return <div>Loading...</div>;
@@ -21,8 +21,14 @@ export default function Database(){
   }
 
   return (
-    <div>
-      <h1>{user.username}</h1>
+    <div className='profile-page-wrapper'>
+      <div className='profile-page-head'>
+       <h1>{user.username}</h1>
+      </div>
+      <div className='profile-page-content'>
+
+      </div>
+      
     </div>
   );
 };
