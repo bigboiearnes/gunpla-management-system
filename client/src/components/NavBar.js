@@ -34,12 +34,11 @@ export default function NavBar() {
 
   return (
     <div className='nav-bar-container'>
-      <h1 className='website-title'>Gunpla Management System</h1>
+      <a href="/" className='website-title'>Gunpla Management System</a>
       <nav className='nav-bar-navs'>
-        <NavLink to="/">Home</NavLink>
-        <NavLink to="/database/HG01">Example Kit</NavLink>
-        <NavLink to="/database/HG01">Example Kit</NavLink>
-        <NavLink to="/database/HG01">Example Kit</NavLink>
+        <NavLink to="/database/HG01">HG01</NavLink>
+        <NavLink to="/database/HG02">HG02</NavLink>
+        <NavLink to="/database/HG03">HG03</NavLink>
       </nav>
       <input
         type="text"
@@ -52,6 +51,7 @@ export default function NavBar() {
       {token ? ( // Check if user is logged in
         <nav className='nav-bar-profile-nav'>
           <NavLink to={`/profile/${username}`}>Profile</NavLink> 
+          <NavLink to={`/collection/${username}`}>Collection</NavLink>
         </nav>
       ) : (
         <nav className='nav-bar-login-navs'>
