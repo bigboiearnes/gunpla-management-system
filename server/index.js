@@ -86,8 +86,6 @@ app.post('/api/user/update', authenticateToken, async (req, res) => {
     const { username, email, password, biography } = req.body;
 
     // If a username does not match its token, forbid
-    console.log(req.user.username);
-    console.log(username.username);
     if (req.user.username !== username ) {
       return res.status(403).json({error: 'Forbidden'});
     }

@@ -73,7 +73,7 @@ export default function NavBar() {
           <NavLink to={`/collection/${username}`}>Collection</NavLink>
         </nav>
       ) : (
-        <nav className='nav-bar-login-navs'>
+        <nav className='nav-bar-profile-nav'>
           <NavLink to="/register">Register</NavLink>
           <NavLink to="/login">Log In</NavLink>
         </nav>

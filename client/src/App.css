@@ -7,13 +7,6 @@
   pointer-events: none;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -27,15 +20,6 @@
 
 .App-link {
   color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
 }
 
 body {
@@ -83,7 +67,7 @@ select:active {
 h1 {
   color: rgb(255, 255, 255);
   font-size: 40pt;
-  font-family:'Compacta';
+  font-family:'Compacta', 'Impact';
   text-decoration: none;
   -webkit-text-stroke-width: 2px;
   -webkit-text-stroke-color: rgba(0, 0, 0, 0.753);

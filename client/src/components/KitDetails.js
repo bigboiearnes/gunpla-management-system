@@ -17,12 +17,12 @@ export default function KitDetails({ kitId }) {
     }
   
     return (
-      <div className="kit-details-wrapper">
-        <div className="kit-details-text-wrapper">
-        <p className="collection-kit-name">{kit.kitName}</p>
-        <p className='kit-release-date'>Release Date: {kit.releaseMonth}/{kit.releaseYear}</p>
+      <div className="collection-kit-details-wrapper">
+        <div className="collection-kit-details-text-wrapper">
+        <a href={`/database/${kitId}`} className="collection-kit-name">{kit.kitName}</a>
+        <p className='collection-kit-release-date'>Release Date: {kit.releaseMonth}/{kit.releaseYear}</p>
         </div>
-        <img className='kit-box-art' src={kit.boxArt} alt={kit.kitName}></img>
+        <img className='collection-kit-box-art' src={kit.boxArt} alt={kit.kitName}></img>
       </div>
     );
 }

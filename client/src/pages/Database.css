@@ -25,6 +25,7 @@
     font-size: 30pt;
     padding-left: 10px;
     padding-right: 10px;
+    text-transform: uppercase;
 }
 
 
@@ -111,12 +112,17 @@
         min-width: 100%;
     }
 
-    button {
+    .database-add-to-collection-button {
         display: flex;
         padding: 5px 10px;
     }
 
-    select {
+    .database-collection-rating-select {
+        display: flex;
+        padding: 5px 10px;
+    }
+
+    .database-collection-status-select {
         display: flex;
         padding: 5px 10px;
     }

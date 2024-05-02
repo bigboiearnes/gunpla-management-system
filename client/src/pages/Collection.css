@@ -8,7 +8,7 @@
 }
 
 .collection-head-wrapper {
-    background-color: rgb(211, 211, 211);
+    background-color: rgb(255, 140, 140);
     border-radius: 15px 15px 0px 0px;
     text-align: center;
 }
@@ -23,9 +23,10 @@
 
 .collection-item {
     display: flex;
-    flex: 1 1 calc(30% - 30px);
+    flex-direction: column;
+    flex: 1 1 calc(15% - 30px);
     font-size: medium;
-    background-color: rgb(255, 140, 140);
+    background-color: rgb(211, 211, 211);
     margin: 10px;
     padding: 10px;
     border-radius: 15px;
@@ -35,15 +36,15 @@
 
 .collection-kit-details-wrapper {
     display: flex;
+    flex-direction: column;
+    flex: 1;
     background-color: rgb(255, 255, 255);
-    border-radius: 15px;
+    border-radius: 15px 15px 0px 0px;
     padding: 10px;
-    max-width: 415px;
-
 }
 
 .collection-kit-details-text-wrapper {
-    background-color: rgb(211, 211, 211);
+    flex: auto;
     border-radius: 15px;
 
 }
@@ -52,9 +53,14 @@
     justify-content: right;
 }
 .collection-kit-name {
-    font-size: large;
+    cursor: pointer;
+    text-decoration: none;
+    color: red;
     padding-left: 5px;
-    padding-bottom: 0px;
+}
+
+.collection-kit-name:hover {
+    text-decoration: underline;
 }
 
 .collection-kit-release-date {
@@ -63,15 +69,40 @@
     padding-right: 10px;
 }
 
-.collection-item-stats {
+.collection-item-stats-wrapper {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    background-color: rgb(211, 211, 211);
-    border-radius: 15px;
+    background-color: rgb(255, 140, 140);
+    border-radius: 0px 0px 15px 15px;
     text-align: center;
     padding: 10px 10px;
-
-
 }
 
+.collection-item-stats {
+    border-bottom: 2px solid gray;
+    margin-top: 1px;
+}
+
+@media (max-width: 640px) {
+    .collection-item-stats {
+        flex-direction: column;
+        font-size: small;
+    }
+
+    .collection-kit-details-text-wrapper {
+        flex: 1;
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .collection-item {
+        max-width: 40%;
+    }
+
+    .collection-kit-box-art {
+        flex-shrink: 1;
+        width: 60%;
+        align-self: center;
+    }
+}

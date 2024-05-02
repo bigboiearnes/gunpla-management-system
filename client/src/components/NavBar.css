@@ -13,7 +13,7 @@
     margin-right: 0px;
     color: rgb(255, 255, 255);
     font-size: xx-large;
-    font-family:'Compacta';
+    font-family:'Compacta', 'Impact';
     text-decoration: none;
     -webkit-text-stroke-width: 1px;
     -webkit-text-stroke-color: rgba(0, 0, 0, 0.753);
@@ -22,10 +22,11 @@
 
 .nav-bar-navs {
     display: flex;
+    margin: 5px;
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    width: 30%;
+    min-width: 15%;
     
     
 }
@@ -51,32 +52,10 @@
     max-height: 20px;
     align-self: center;
     width: 19%;
+    margin: 5px;
     border-radius: 5px;
     min-width: 150px;
     
-}
-
-.nav-bar-login-navs {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.nav-bar-login-navs a {
-    margin: 5px; 
-    color: white;
-    text-decoration: none;
-    background-color: rgba(255, 0, 0, 0.753);
-    padding: 6px;
-    border-radius: 7px;
-  }
-
-
-.nav-bar-login-navs a:hover {
-    background-color: rgb(182, 182, 182);
-    border-radius: 7px;
-    padding:6px;
 }
 
 .nav-bar-profile-nav {

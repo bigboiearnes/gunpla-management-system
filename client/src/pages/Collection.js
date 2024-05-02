@@ -42,10 +42,10 @@ export default function Collection(){
                 {targetUser.collection.map((collectionItem, index) => (
                     <div className='collection-item' key={index}>
                         <KitDetails kitId={collectionItem.kitId} />
-                        <div className='collection-item-stats'>
-                            <div>Kit ID:<br />{collectionItem.kitId}</div>
-                            <div>{getStatusLabel(collectionItem.status)}</div>
-                            <div>Rating: {collectionItem.rating}</div>
+                        <div className='collection-item-stats-wrapper'>
+                            <div className='collection-item-stats'>{getStatusLabel(collectionItem.status)}</div>
+                            <div className='collection-item-stats'>Rating: {collectionItem.rating}</div>
+                            <div className='collection-item-stats'>Kit ID: {collectionItem.kitId}</div>
                         </div>
                     </div>
                 ))}
