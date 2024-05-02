@@ -184,17 +184,34 @@ app.get('/api/user/:username', async (req, res) =>{
 //Registers the user
 app.post('/api/register', async (req, res) =>{
   try {
-    const { username, email, password } = req.body;
+    const { username, email, password, biography } = req.body;
+
+    // Check if username is taken
+    const existingUsername = await User.findOne({ username });
+    if (existingUsername) {
+      return res.status(400).json({ error: 'Username already taken'})
+    }
+
+    // Check if email is taken
+    const existingEmail = await User.findOne({ email });
+    if (existingEmail) {
+      return res.status(400).json({ error: 'Email already taken'})
+    }
 
     // Sets register date as current date
     const registerDate = new Date();
 
     // Encrypts password using a hash function
     const hashedPassword = await bcrypt.hash(password, 10);
-
+    
     // Save new user into the database
-    const newUser = new User({ username, email, password: hashedPassword, registerDate });
+    const newUser = new User({ username, email, password, registerDate, biography });
     await newUser.save();
+
+    // Create empty collection for user
+    const userCollection = new Collection({ username, collection: [] })
+    await userCollection.save();
+
     res.status(201).json({ message: 'User registered successfully' });
   } catch (error) {
     console.error('Registration error:', error);

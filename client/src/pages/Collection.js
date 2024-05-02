@@ -22,7 +22,7 @@ export default function Collection(){
       
 
     if (!targetUser) {
-        return <div className='collection-page-wrapper'>User not found</div>;
+        return <div className='collection-page-wrapper'>Collection not found</div>;
       }
     if (loading) {
         return <div>Loading...</div>;

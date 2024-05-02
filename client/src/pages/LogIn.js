@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../components/AuthContext'
+import './Login.css';
+
 
 export default function Login() {
     const [username, setUsername] = useState('');
@@ -21,11 +23,32 @@ export default function Login() {
     };
 
     return (
-        <div>
-            <h2>Login</h2>
-            <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} />
-            <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
-            <button onClick={handleLogin}>Login</button>
+        <div className='login-page-wrapper'>
+            <div className='login-head-wrapper'>
+                <h1 className='login-page-heading'>Login</h1>
+            </div>
+            <div className='login-body-wrapper'>
+                <div className='login-form-wrapper'>
+                    <div className='login-inputs-wrapper'>
+                        <input className='login-username-input'
+                            type="text"
+                            placeholder="Username" 
+                            value={username} 
+                            onChange={(e) => setUsername(e.target.value)} 
+                            />
+                            <br />
+                        <input className='login-password-input'
+                            type="password" 
+                            placeholder="Password" 
+                            value={password} 
+                            onChange={(e) => setPassword(e.target.value)} 
+                            />
+                    </div>
+                    <div className='login-button-wrapper'>
+                        <button onClick={handleLogin}>Login</button>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 };

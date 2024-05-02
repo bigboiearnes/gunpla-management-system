@@ -1,0 +1,58 @@
+.register-page-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 15px;
+    background-color: rgb(231, 231, 231);
+    border-radius: 15px;
+}
+
+.register-head-wrapper {
+    background-color: rgb(255, 140, 140);
+    border-radius: 15px 15px 0px 0px;
+    text-align: center;
+    min-width: 100%;
+}
+
+.register-page-heading {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.register-body-wrapper {
+    flex: auto;
+    display: flex;
+    text-align: center;
+    align-content: space-around;
+    align-items: center;
+    width: fit-content;
+}
+
+.register-form-wrapper {
+    width: fit-content;
+    padding:10px;
+}
+
+.register-inputs-wrapper {
+    text-align: left;
+    height: max-content;
+    margin-bottom: 10px;
+}
+
+.register-username-input {
+    height: 20px;
+    margin: 5px;
+}
+
+.register-email-input {
+    height: 20px;
+    width: 100%;
+    margin: 5px;
+
+}
+
+.register-password-input {
+    height: 20px;
+    margin: 5px;
+}

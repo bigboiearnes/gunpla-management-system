@@ -1,0 +1,51 @@
+.login-page-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 15px;
+    background-color: rgb(231, 231, 231);
+    border-radius: 15px;
+}
+
+.login-head-wrapper {
+    background-color: rgb(255, 140, 140);
+    border-radius: 15px 15px 0px 0px;
+    text-align: center;
+    min-width: 100%;
+}
+
+.login-page-heading {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.login-body-wrapper {
+    flex: auto;
+    display: flex;
+    text-align: center;
+    align-content: space-around;
+    align-items: center;
+    width: fit-content;
+}
+
+.login-form-wrapper {
+    width: fit-content;
+    padding:10px;
+}
+
+.login-inputs-wrapper {
+    text-align: left;
+    height: max-content;
+    margin-bottom: 10px;
+}
+
+.login-username-input {
+    height: 20px;
+    margin: 5px;
+}
+
+.login-password-input {
+    height: 20px;
+    margin: 5px;
+}
