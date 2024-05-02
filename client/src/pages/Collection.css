@@ -1,4 +1,4 @@
-.page-wrapper {
+.collection-page-wrapper {
     flex: auto;
     display: flex;
     flex-direction: column;
@@ -7,13 +7,13 @@
     border-radius: 15px;
 }
 
-.head-wrapper {
+.collection-head-wrapper {
     background-color: rgb(211, 211, 211);
     border-radius: 15px 15px 0px 0px;
     text-align: center;
 }
 
-.content-wrapper {
+.collection-content-wrapper {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -33,7 +33,7 @@
     justify-content: space-between;
 }
 
-.kit-details-wrapper {
+.collection-kit-details-wrapper {
     display: flex;
     background-color: rgb(255, 255, 255);
     border-radius: 15px;
@@ -42,13 +42,13 @@
 
 }
 
-.kit-details-text-wrapper {
+.collection-kit-details-text-wrapper {
     background-color: rgb(211, 211, 211);
     border-radius: 15px;
 
 }
 
-.kit-box-art {
+.collection-kit-box-art {
     justify-content: right;
 }
 .collection-kit-name {
@@ -57,7 +57,7 @@
     padding-bottom: 0px;
 }
 
-.kit-release-date {
+.collection-kit-release-date {
     font-size: medium;
     padding-left: 5px;
     padding-right: 10px;

@@ -13,6 +13,7 @@
   }
 }
 
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -62,7 +63,7 @@ button:active {
 }
 
 select {
-  margin-right: 10px;
+  margin: 10px;
   border: none;
   background-color: white;
   padding: 10px 25px;
@@ -86,4 +87,5 @@ h1 {
   text-decoration: none;
   -webkit-text-stroke-width: 2px;
   -webkit-text-stroke-color: rgba(0, 0, 0, 0.753);
+  font-weight: 400;
 }

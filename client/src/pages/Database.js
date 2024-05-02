@@ -51,7 +51,7 @@ export default function Database(){
       };
 
       // Post details and authentication to API
-      const response = await axios.post('http://localhost:4000/api/user/collection', payload, {
+      const response = await axios.post('/api/user/collection', payload, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -86,29 +86,29 @@ export default function Database(){
   }
 
   return (
-    <div className='kit-page-wrapper'>
-      <div className='kit-page-head'>
-        <h1 className='kit-name'>{kit.kitName}</h1>
-        <img className='kit-box-art' src={kit.boxArt} alt={kit.kitName}></img>
-        <h3 className='kit-model'>{kit.kitGrade}</h3>
-        <h3 className='kit-model'>Suit Model: {kit.gundamModel}</h3>
-        <h3 className='kit-model'>Timeline: {kit.timeline}</h3>
-        <h3 className='kit-model'>Scale: {kit.scale}</h3>
-        <h3 className='kit-model'>Runners: {kit.runnerNum}</h3>
-        <h3 className='kit-model'>Release Date: {kit.releaseMonth}/{kit.releaseYear}</h3>
-        <h3 className='kit-model'>GMS ID: {kit.kitId}</h3>
+    <div className='database-kit-page-wrapper'>
+      <div className='database-kit-page-head'>
+        <h1 className='database-kit-name'>{kit.kitName}</h1>
+        <img className='database-kit-box-art' src={kit.boxArt} alt={kit.kitName}></img>
+        <h3 className='database-kit-model'>{kit.kitGrade}</h3>
+        <h3 className='database-kit-model'>Suit Model: {kit.gundamModel}</h3>
+        <h3 className='database-kit-model'>Timeline: {kit.timeline}</h3>
+        <h3 className='database-kit-model'>Scale: {kit.scale}</h3>
+        <h3 className='database-kit-model'>Runners: {kit.runnerNum}</h3>
+        <h3 className='database-kit-model'>Release Date: {kit.releaseMonth}/{kit.releaseYear}</h3>
+        <h3 className='database-it-model'>GMS ID: {kit.kitId}</h3>
       </div>
-      <div className='kit-content-wrapper'>
+      <div className='database-kit-content-wrapper'>
 
           
-          <div className='collection-wrapper'>
+          <div className='database-collection-wrapper'>
           <button 
-          className='add-to-collection-button' 
+          className='database-add-to-collection-button' 
           onClick={handleAddToCollection}>
           {user && user.collection && user.collection.includes(kitId) ? 'Update collection' : 'Add to collection'}
           </button>
           <select 
-          className='collection-rating-select'
+          className='database-collection-rating-select'
           value={selectedRating}
           onChange={(e) => setSelectedRating(e.target.value)}
           >
@@ -120,7 +120,7 @@ export default function Database(){
             <option value={5}>5</option>
           </select>
           <select 
-          className='collection-status-select'
+          className='database-collection-status-select'
           value={selectedStatus}
           onChange={(e) => setSelectedStatus(e.target.value)}
           >
@@ -131,12 +131,12 @@ export default function Database(){
           </select>
           </div>
 
-          <div className='biography-wrapper'>
-            <p className='kit-biography'>{kit.biography}</p>
+          <div className='database-biography-wrapper'>
+            <p className='database-kit-biography'>{kit.biography}</p>
           </div>
 
           {kit && kit.accessories && (
-            <div className='kit-accessories-list'>
+            <div className='database-kit-accessories-list'>
               <h3>Kit Accessories:</h3>
               <ul>
                 {kit.accessories.map((accessory, index) => (

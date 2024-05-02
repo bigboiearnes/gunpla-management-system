@@ -1,5 +1,6 @@
 import React, { useState, useEffect} from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import useFetchUser from '../components/FetchUserData';
 import { useAuth } from '../components/AuthContext';
 import { fetchUserAuth } from '../components/FetchUserAuth';
@@ -64,10 +65,29 @@ export default function Profile(){
     setBiography(e.target.value);
   };
   
-  const handleSubmit = () => {
-    console.log('updated biography', biography)
-  
-    setEditMode(false);
+  const handleSubmit = async () => {
+
+    const payload = {
+      username: targetUser.username,
+      biography,
+    }
+    // Post details and authentication to API
+    const response = await axios.post('/api/user/update', payload, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.data) {
+      throw new Error('Failed to update collection');
+    }
+
+    
+
+    // Alert user to successful operation
+    alert('Biography updated successfully');
+    // Refresh page to update data
+    window.location.reload();
   };
 
   const handleLogout = () => {
@@ -98,17 +118,17 @@ export default function Profile(){
         {/* Render biography or textbox based on editMode*/}
         {editMode ? (
           <div className='profile-page-content'>
-            <div className='button-wrapper'>
+            <div className='profile-button-wrapper'>
               <button onClick={handleSubmit}>Submit</button>
               {usernamesMatch && (
-              <button className='edit-biography-button' onClick={handleToggleEditMode}>
+              <button className='profile-edit-biography-button' onClick={handleToggleEditMode}>
                 {editMode ? 'Cancel' : 'Edit Biography'}
               </button>
             )}
             </div>
-            <div className='biography-box-wrapper'>
+            <div className='profile-biography-box-wrapper'>
               <textarea 
-                className='biography-edit-box' 
+                className='profile-biography-edit-box' 
                 value={biography} 
                 onChange={handleBiographyChange}   
               />
@@ -117,15 +137,15 @@ export default function Profile(){
           
         ) : (
           <div className='profile-page-content'>
-            <div className='button-wrapper'>
+            <div className='profile-button-wrapper'>
             {usernamesMatch && (
-              <button className='edit-biography-button' onClick={handleToggleEditMode}>
+              <button className='profile-edit-biography-button' onClick={handleToggleEditMode}>
                 {editMode ? 'Cancel' : 'Edit Biography'}
               </button>
             )}
             </div>
-            <div className='biography-box-wrapper'>
-              <p className='biography-box'>{targetUser.biography}</p>
+            <div className='profile-biography-box-wrapper'>
+              <p className='profile-biography-box'>{targetUser.biography}</p>
             </div>
             
           </div>

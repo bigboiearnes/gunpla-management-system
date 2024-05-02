@@ -1,4 +1,4 @@
-.kit-page-wrapper {
+.database-kit-page-wrapper {
     flex: auto;
     display: flex;
     flex-direction: row;
@@ -7,28 +7,28 @@
     border-radius: 15px;
 }
 
-.kit-content-wrapper {
+.database-kit-content-wrapper {
     flex-direction: column;
     width: max-content;
     display: flex;
     flex: content;
 }
 
-.kit-page-head {
+.database-kit-page-head {
     background-color: rgb(211, 211, 211);
     border-radius: 15px 0px 0px 15px;
     padding-bottom: 10px;
     text-align: center;
 }
 
-.kit-name {
+.database-kit-name {
     font-size: 30pt;
     padding-left: 10px;
     padding-right: 10px;
 }
 
 
-.kit-model {
+.database-kit-model {
     font-size: medium;
     background-color: rgb(255, 140, 140);
     margin: 10px 5px;
@@ -38,7 +38,7 @@
     font-weight: 600;
 }
 
-.collection-wrapper {
+.database-collection-wrapper {
     flex-direction: row;
     padding: 10px;
     background-color: rgb(255, 140, 140);
@@ -46,13 +46,13 @@
     text-align: center;
 }
 
-.kit-box-art {
+.database-kit-box-art {
     margin: 20px;
     width: 200px;
     height: 149px;
 }
 
-.kit-biography {
+.database-kit-biography {
     margin: 10px;
     min-height: auto;
     background-color: rgb(222, 222, 222);
@@ -60,24 +60,24 @@
     white-space: pre-line;
 }
 
-.biography-wrapper {
+.database-biography-wrapper {
     border-top: 1px solid black;
     border-bottom: 1px solid black;
     background-color: rgb(222, 222, 222);
     min-height: 20%;
 }
 
-.kit-accessories-list {
+.database-kit-accessories-list {
     margin: 10px;
 }
 
 @media (max-width: 640px) {
-    .kit-page-wrapper {
+    .database-kit-page-wrapper {
       flex-direction: column;
       text-align: center;
     }
 
-    .kit-page-head {
+    .database-kit-page-head {
         flex-direction: row;
         flex: content;
         width: auto;
@@ -86,7 +86,7 @@
         border-radius: 15px 15px 0px 0px;
     }
 
-    .kit-content-wrapper {
+    .database-kit-content-wrapper {
         flex: content;
         width: auto;
         flex-wrap: wrap;
@@ -94,11 +94,11 @@
         border-radius: 15px;
     }
 
-    .kit-model {
+    .database-kit-model {
         margin: 1px;
     }
 
-    .collection-wrapper {
+    .database-collection-wrapper {
         display: flex;
         flex-shrink: 1;
         border-radius: 10px;
@@ -106,7 +106,7 @@
         margin: 5px;
     }
 
-    .biography-wrapper {
+    .database-biography-wrapper {
         border: 0px hidden black;
         min-width: 100%;
     }

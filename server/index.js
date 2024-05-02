@@ -65,6 +65,7 @@ app.get('/api/user', authenticateToken, async (req, res) => {
   }
 });
 
+// Checks whether token is valid, for automatic logouts
 app.get('/api/user/check-token', async (req, res) =>{
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
@@ -76,6 +77,35 @@ app.get('/api/user/check-token', async (req, res) =>{
   } catch (error) {
     console.error('Error verifying token:', error);
     res.status(403).json({ error: 'Forbidden' });
+  }
+});
+
+// Allows a user to update their details
+app.post('/api/user/update', authenticateToken, async (req, res) => {
+  try {
+    const { username, email, password, biography } = req.body;
+
+    // If a username does not match its token, forbid
+    console.log(req.user.username);
+    console.log(username.username);
+    if (req.user.username !== username ) {
+      return res.status(403).json({error: 'Forbidden'});
+    }
+
+    const updatedUser = await User.findOneAndUpdate(
+      { username }, // Find user by username
+      { email, password, biography }, // Update user details
+      { new: true } // Return updated user
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ error: 'User not found '});
+    }
+
+    res.json(updatedUser);
+  } catch (error) {
+    console.error('Error updating user:', error);
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
 

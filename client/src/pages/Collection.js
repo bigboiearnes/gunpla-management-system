@@ -22,23 +22,23 @@ export default function Collection(){
       
 
     if (!targetUser) {
-        return <div className='profile-page-wrapper'>User not found</div>;
+        return <div className='collection-page-wrapper'>User not found</div>;
       }
     if (loading) {
         return <div>Loading...</div>;
     }
     
     if (error) {
-        return <div className='profile-page-wrapper'>Error: {error.message}</div>;
+        return <div className='collection-page-wrapper'>Error: {error.message}</div>;
     }
 
     return (
-        <div className='page-wrapper'>
-            <div className='head-wrapper'>
+        <div className='collection-page-wrapper'>
+            <div className='collection-head-wrapper'>
                 <h1>{username}'s Collection</h1>
             </div>
             {targetUser && targetUser.collection && (
-            <div className='content-wrapper'>
+            <div className='collection-content-wrapper'>
                 {targetUser.collection.map((collectionItem, index) => (
                     <div className='collection-item' key={index}>
                         <KitDetails kitId={collectionItem.kitId} />
