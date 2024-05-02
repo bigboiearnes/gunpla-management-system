@@ -22,20 +22,15 @@
 }
 
 .kit-name {
-    font-size: x-large;
+    font-size: 30pt;
     padding-left: 10px;
     padding-right: 10px;
 }
 
-.kit-grade {
-    font-size: large;
-    padding-left: 10px;
-    background-color: rgb(194, 168, 218);
-}
 
 .kit-model {
     font-size: medium;
-    background-color: rgb(194, 168, 218);
+    background-color: rgb(255, 140, 140);
     margin: 10px 5px;
     padding: 5px 10px;
     border-radius: 5px;
@@ -46,49 +41,9 @@
 .collection-wrapper {
     flex-direction: row;
     padding: 10px;
-    background-color: rgb(194, 168, 218);
+    background-color: rgb(255, 140, 140);
     border-radius: 0px 15px 0px 0px;
     text-align: center;
-}
-
-
-
-button {
-    margin-right: 10px;
-    border: none;
-    background-color: white;
-    padding: 10px 25px;
-    border: 2px solid purple;
-    transition-duration: 0.2s;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: rgb(199, 199, 199);
-}
-
-button:active {
-    box-shadow: 0 3px gray;
-    transform: translateY(1px);
-    transform: translateX(-1px);
-}
-
-select {
-    margin-right: 10px;
-    border: none;
-    background-color: white;
-    padding: 10px 25px;
-    border: 2px solid purple;
-    transition-duration: 0.2s;
-    cursor: pointer;
-}
-
-
-select:active {
-    box-shadow: 0 3px gray;
-    transform: translateY(1px);
-    transform: translateX(-1px);
-    background-color: white;
 }
 
 .kit-box-art {

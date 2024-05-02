@@ -1,5 +1,5 @@
 import React, { useState, useEffect} from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import useFetchUser from '../components/FetchUserData';
 import { useAuth } from '../components/AuthContext';
 import { fetchUserAuth } from '../components/FetchUserAuth';
@@ -7,8 +7,9 @@ import './Profile.css';
 
 export default function Profile(){
   const { username } = useParams();
+  const navigate = useNavigate();
   const { targetUser, loading, error } = useFetchUser(username);
-  const { token } = useAuth();
+  const { token, logout } = useAuth();
   const [currentUser, setCurrentUser] = useState(null);
   const [editMode, setEditMode] = useState(false);
   const [biography, setBiography] = useState(targetUser ? targetUser.biography || '' : '');
@@ -69,18 +70,34 @@ export default function Profile(){
     setEditMode(false);
   };
 
+  const handleLogout = () => {
+    logout();
+    navigate(`/`)
+  };
 
+  const handleNavigateToCollection = () => {
+    navigate(`/collection/${targetUser.username}`);
+  };
 
   return (
+    <div>
     <div className='profile-page-wrapper'>
       <div className='profile-page-head'>
        <h1 className='profile-username'>{targetUser.username}</h1>
        <p className='profile-register-date'>Register Date: {formattedDate}</p>
+       <div className= 'profile-page-head-buttons'>
+       <button onClick={handleNavigateToCollection}>Go to {targetUser.username}'s Collection</button>
+       {usernamesMatch && (
+              <button className='logout-button' onClick={handleLogout}>
+                Log Out
+              </button>
+            )}
+            </div>
       </div>
-      <div className='profile-page-content'>
+      <div className='profile-page-content-wrapper'>
         {/* Render biography or textbox based on editMode*/}
         {editMode ? (
-          <div>
+          <div className='profile-page-content'>
             <div className='button-wrapper'>
               <button onClick={handleSubmit}>Submit</button>
               {usernamesMatch && (
@@ -99,7 +116,7 @@ export default function Profile(){
           </div>
           
         ) : (
-          <div>
+          <div className='profile-page-content'>
             <div className='button-wrapper'>
             {usernamesMatch && (
               <button className='edit-biography-button' onClick={handleToggleEditMode}>
@@ -114,6 +131,7 @@ export default function Profile(){
           </div>
         )}
       </div>
+    </div>
     </div>
   );
 };

@@ -11,6 +11,7 @@ const Register = lazy(() => import('./pages/Register'));
 const LogIn = lazy(() => import('./pages/LogIn'));
 const Profile = lazy(() => import('./pages/Profile'));
 const Database = lazy(() => import('./pages/Database'));
+const Collection = lazy(() => import('./pages/Collection'));
 const NoMatch = lazy(() => import('./pages/NoMatch'));
 
 export default function App() {
@@ -24,6 +25,7 @@ export default function App() {
                   <Route path='/login' element={<LogIn/>}/>
                   <Route path='/profile/:username' element={<Profile/>}/>
                   <Route path='/database/:kitId' element={<Database />}/>
+                  <Route path='collection/:username' element={<Collection />}/>
                   <Route path='*' element={<NoMatch />}/>
               </Routes>
           </Suspense>

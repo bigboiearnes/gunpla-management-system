@@ -2,7 +2,7 @@
     flex: auto;
     display: flex;
     justify-content: space-between;
-    background-color: rgb(176, 73, 255);
+    background-color: rgb(235, 235, 235);
     border-radius: 15px;
     min-height: 70px;
     margin: 15px
@@ -11,13 +11,12 @@
     margin: auto;
     margin-left: 10px;
     margin-right: 0px;
-    color: white;
-    font-size: larger;
-    font-family:'Franklin Gothic Medium';
+    color: rgb(255, 255, 255);
+    font-size: xx-large;
+    font-family:'Compacta';
     text-decoration: none;
-    font-weight: 700;
     -webkit-text-stroke-width: 1px;
-    -webkit-text-stroke-color: rgba(161, 161, 161, 0.459);
+    -webkit-text-stroke-color: rgba(0, 0, 0, 0.753);
 }
 
 
@@ -33,9 +32,9 @@
 
 .nav-bar-navs a {
     margin: 5px; 
-    color: white;
+    color: rgb(255, 255, 255);
     text-decoration: none;
-    background-color: rgba(221, 221, 221, 0.445);
+    background-color: rgba(255, 0, 0, 0.753);
     padding: 6px;
     border-radius: 7px;
   }
@@ -68,7 +67,7 @@
     margin: 5px; 
     color: white;
     text-decoration: none;
-    background-color: rgba(221, 221, 221, 0.445);
+    background-color: rgba(255, 0, 0, 0.753);
     padding: 6px;
     border-radius: 7px;
   }
@@ -93,7 +92,7 @@
     margin: 5px;
     color: white;
     text-decoration: none;
-    background-color: rgba(221, 221, 221, 0.445);
+    background-color: rgba(255, 0, 0, 0.753);
     padding: 6px;
     border-radius: 7px;
   }
@@ -109,6 +108,7 @@
     .website-title {
         margin-right: 0px;
         padding-right: 0px;
+        font-size: large;
     }
     
     .nav-bar-navs {
@@ -145,11 +145,7 @@
     .nav-bar-profile-nav a {
         margin: auto;
     }
-
-    .website-title {
-        font-size: small;
-        margin-right: 0;
-    }        
+    
 
     .nav-bar-search-bar {
         min-width: 100px; 

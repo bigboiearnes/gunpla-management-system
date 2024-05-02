@@ -8,12 +8,21 @@
 }
 
 .profile-page-head {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
     background-color: rgb(211, 211, 211);
     border-radius: 15px 0px 0px 15px;
     padding-bottom: 10px;
     text-align: center;
     width: 30%;
     max-width: 400px;
+}
+
+.profile-page-content-wrapper {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
 }
 
 .profile-page-content {
@@ -23,51 +32,32 @@
 }
 
 .profile-username {
-    font-size: x-large;
     padding-left: 10px;
     padding-right: 10px;
 }
 
 .profile-register-date {
     font-size: medium;
-    background-color: rgb(194, 168, 218);
+    background-color: rgb(255, 140, 140);
     margin: 10px 5px;
     padding: 5px 10px;
     border-radius: 5px;
     font-weight: 600;
 }
-
-
-button {
-    margin-right: 10px;
-    border: none;
-    background-color: white;
-    padding: 10px 25px;
-    border: 2px solid purple;
-    transition-duration: 0.2s;
-    cursor: pointer;
+.profile-page-head-buttons {
+    text-align: center;
     flex: auto;
+    justify-content: center;
 }
-
-button:hover {
-    background-color: rgb(199, 199, 199);
-}
-button:active {
-    box-shadow: 0 3px gray;
-    transform: translateY(1px);
-    transform: translateX(-1px);
-}
-
 .button-wrapper {
     flex-direction: row;
-    background-color: rgb(194, 168, 218);
+    background-color: rgb(255, 140, 140);
     text-align: center;
     padding: 10px;
     border-radius: 0px 15px 0px 0px;
 }
 
 .biography-box-wrapper {
-    flex: 1;
     display: flex;
     flex-direction: column;
     border-top: 1px solid black;
@@ -75,6 +65,7 @@ button:active {
     border-radius: 0px 0px 15px 0px;
     padding: 10px;
     flex-grow: 1;
+    max-height: 100%;
 }
 
 .biography-edit-box {
@@ -105,7 +96,6 @@ button:active {
     }
 
     .profile-page-head {
-        flex-direction: row;
         flex: content;
         width: auto;
         flex-wrap: wrap;

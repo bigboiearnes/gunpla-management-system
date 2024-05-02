@@ -53,7 +53,7 @@ export default function NavBar() {
 
   return (
     <div className='nav-bar-container'>
-      <a href="/" className='website-title'>Gunpla Management System</a>
+      <a href="/" className='website-title'>GUNPLA MANAGEMENT SYSTEM</a>
       <nav className='nav-bar-navs'>
         <NavLink to="/database/HG01">HG01</NavLink>
         <NavLink to="/database/HG02">HG02</NavLink>
