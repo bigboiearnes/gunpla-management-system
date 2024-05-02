@@ -1,7 +1,8 @@
+// Fetches user details using their username
 import { useState, useEffect } from 'react';
 
 const useFetchUser = (username) => {
-  const [user, setUser] = useState(null);
+  const [targetUser, setTargetUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -13,7 +14,7 @@ const useFetchUser = (username) => {
           throw new Error('Failed to fetch data');
         }
         const data = await response.json();
-        setUser(data);
+        setTargetUser(data);
         setLoading(false);
       } catch (error) {
         setError(error);
@@ -24,7 +25,7 @@ const useFetchUser = (username) => {
     fetchUserData();
   }, [username]);
 
-  return { user, loading, error };
+  return { targetUser, loading, error };
 };
 
 

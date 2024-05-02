@@ -5,10 +5,7 @@
     margin: 15px;
     background-color: rgb(231, 231, 231);
     border-radius: 15px;
-    
 }
-
-
 
 .kit-content-wrapper {
     flex-direction: column;
@@ -16,7 +13,6 @@
     display: flex;
     flex: content;
 }
-
 
 .kit-page-head {
     background-color: rgb(211, 211, 211);
@@ -35,8 +31,6 @@
     font-size: large;
     padding-left: 10px;
     background-color: rgb(194, 168, 218);
-    
-
 }
 
 .kit-model {
@@ -47,7 +41,6 @@
     border-radius: 5px;
     text-align: left;
     font-weight: 600;
-    
 }
 
 .collection-wrapper {
@@ -58,7 +51,9 @@
     text-align: center;
 }
 
-.add-to-collection-button {
+
+
+button {
     margin-right: 10px;
     border: none;
     background-color: white;
@@ -66,20 +61,19 @@
     border: 2px solid purple;
     transition-duration: 0.2s;
     cursor: pointer;
-    
 }
 
-.add-to-collection-button:hover {
+button:hover {
     background-color: rgb(199, 199, 199);
 }
 
-.add-to-collection-button:active {
+button:active {
     box-shadow: 0 3px gray;
     transform: translateY(1px);
     transform: translateX(-1px);
 }
 
-.collection-rating-select {
+select {
     margin-right: 10px;
     border: none;
     background-color: white;
@@ -90,29 +84,11 @@
 }
 
 
-.collection-rating-select:active {
+select:active {
     box-shadow: 0 3px gray;
     transform: translateY(1px);
     transform: translateX(-1px);
-    background-color: whit;
-}
-
-.collection-status-select {
-    margin-right: 10px;
-    border: none;
     background-color: white;
-    padding: 10px 25px;
-    border: 2px solid purple;
-    transition-duration: 0.2s;
-    cursor: pointer;
-}
-
-
-.collection-status-select:active {
-    box-shadow: 0 3px gray;
-    transform: translateY(1px);
-    transform: translateX(-1px);
-    background-color: whit;
 }
 
 .kit-box-art {
@@ -126,12 +102,12 @@
     min-height: auto;
     background-color: rgb(222, 222, 222);
     text-align: left;
+    white-space: pre-line;
 }
 
 .biography-wrapper {
     border-top: 1px solid black;
     border-bottom: 1px solid black;
-
     background-color: rgb(222, 222, 222);
     min-height: 20%;
 }
@@ -168,7 +144,8 @@
     }
 
     .collection-wrapper {
-        min-width: max-content;
+        display: flex;
+        flex-shrink: 1;
         border-radius: 10px;
         padding: auto;
         margin: 5px;
@@ -177,5 +154,15 @@
     .biography-wrapper {
         border: 0px hidden black;
         min-width: 100%;
+    }
+
+    button {
+        display: flex;
+        padding: 5px 10px;
+    }
+
+    select {
+        display: flex;
+        padding: 5px 10px;
     }
   }

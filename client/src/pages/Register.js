@@ -6,11 +6,12 @@ export default function Register() {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('');
+    const biography = "This is a biography!"
     const navigate = useNavigate();
 
     const handleRegister = async () => {
         try {
-            await axios.post('/api/register', { username, email, password });
+            await axios.post('/api/register', { username, email, password, biography });
             console.log('User registered successfully');
             navigate('/login')
         } catch (error) {

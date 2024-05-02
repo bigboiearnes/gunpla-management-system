@@ -1,3 +1,4 @@
+// Fetch current user's username using their token
 export const fetchUserAuth = async (token) => {
     try {
       const response = await fetch('/api/user', {
