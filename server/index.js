@@ -65,6 +65,20 @@ app.get('/api/user', authenticateToken, async (req, res) => {
   }
 });
 
+app.get('/api/user/check-token', async (req, res) =>{
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+
+  try {
+    const user = jwt.verify(token, 'your-secret-key');
+    req.user = user; // Attach user to request object for later use
+    res.sendStatus(200); // Token is valid, send success response
+  } catch (error) {
+    console.error('Error verifying token:', error);
+    res.status(403).json({ error: 'Forbidden' });
+  }
+});
+
 // Adds gunpla to user collection, uses token to derive user
 app.post('/api/user/collection', authenticateToken, async (req, res) => {
   try {
@@ -100,6 +114,21 @@ app.post('/api/user/collection', authenticateToken, async (req, res) => {
   } catch (error) {
     console.error('Error updating user collection:', error);
     res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+//Fetch users collection using username
+app.get('/api/user/collection/:username', async (req, res) => {
+  try {
+    const userCollection = await Collection.findOne({ username: req.params.username});
+    if (!userCollection) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    res.json(userCollection);
+  } catch (error) {
+    console.error('Error occured whilst fetching collection:', error);
+    res.status(500).json({ error: 'Internal server error'})
   }
 });
 

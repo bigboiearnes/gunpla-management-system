@@ -1,19 +1,39 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
-import { useAuth } from '../components/AuthContext';
+import axios from 'axios';
+import { useAuth } from './AuthContext';
 import { fetchUserAuth } from './FetchUserAuth';
 import './NavBar.css';
 
 export default function NavBar() {
-  const { token } = useAuth(); 
+  const { token, logout } = useAuth(); 
   const [searchInput, setSearchInput] = useState('');
   const [username, setUsername] = useState(null)
 
   useEffect(() => {
+    // Perform when a token exists (the user has logged in)
+    const checkTokenValidity = async () => {
+      try {
+        await axios.get('/api/user/check-token', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+      } catch (error) {
+        if (error.response && error.response.status === 403) {
+          // Token is invalid or expired, log out the user
+          logout();
+        }
+      }
+    };
+
     if (token) {
-      fetchUserData(token);
+      checkTokenValidity();
+      if (token) {
+        fetchUserData(token);
+      }
     }
-  }, [token]);
+  }, [token, logout]);
 
   const fetchUserData = async (token) => {
     try {
@@ -23,7 +43,6 @@ export default function NavBar() {
       console.error('Error fetching user data:', error)
     }
   };
-
 
   const handleSearch = (e) => {
     if (e.key === 'Enter') {

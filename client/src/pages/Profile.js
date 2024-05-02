@@ -33,11 +33,7 @@ export default function Profile(){
   
 
   if (!targetUser) {
-    return <div className='profile-page-wrapper'>Loading...</div>;
-  }
-
-  if (!currentUser) {
-    return loading ? <div>Loading...</div> : null;
+    return <div className='profile-page-wrapper'>User not found</div>;
   }
 
   if (loading) {
@@ -49,7 +45,10 @@ export default function Profile(){
   }
 
   // Checks if the user viewing the page is the same as the user logged in
-  const usernamesMatch = targetUser.username === currentUser.username;
+  let usernamesMatch = false
+  if (currentUser) {
+    usernamesMatch = targetUser.username === currentUser.username;
+  }
 
   // Format register date 
   const registerDate = new Date(targetUser.registerDate);

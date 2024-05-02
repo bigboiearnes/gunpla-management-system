@@ -7,7 +7,7 @@ export const fetchUserAuth = async (token) => {
           'authorization': `Bearer ${token}`
         }
       });
-      
+
       if (!response.ok) {
         throw new Error('Failed to fetch username');
       }
