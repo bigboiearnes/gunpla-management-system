@@ -21,19 +21,17 @@ export default function Register() {
                 minLength: 8, minLowercase: 1, 
                 minUppercase: 1, minNumbers: 1, minSymbols: 1 
             })) { 
-
                 // Validate email
                 if ((validator.isEmail(email))){
-
-                    if (validator.isAlphanumeric(username) && (username.length < 20)) {
+                    // Validate username
+                    if (validator.isAlphanumeric(username) && (username.length < 21)) {
+                        // Pass details to the API
                         await axios.post('/api/register', { username, email, password, biography });
                         console.log('User registered successfully');
                         navigate('/login')
                     } else {
                         throw new Error('Username is invalid');
                     }
-                    // Pass user details to API
-                    
                 } else {
                     throw new Error('Email is invalid');
                 }
