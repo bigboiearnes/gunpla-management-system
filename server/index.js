@@ -39,6 +39,41 @@ app.get('/api/kits/:kitId', async (req, res) =>{
   }
 });
 
+// Searches kits for query and returns matches
+app.get('/api/kit/search/', async (req, res) => {
+  const { query, page, pageSize } = req.query;
+  const pageNumber = parseInt(page, 10) || 1;
+  const size = parseInt(pageSize, 10) || 10;
+  console.log(query);
+
+  try {
+    // Calculate the number of documents to skip based on the page number and page size
+    const skip = (pageNumber - 1) * size;
+
+    let kits;
+
+    // Search by kitId first
+    kits = await Kit.find({ kitId: { $regex: query, $options: 'i' } }).skip(skip).limit(size);
+
+    // If no results found by kitId, then search by kitName and gundamModel
+    if (kits.length === 0) {
+      kits = await Kit.find({
+        $or: [
+          { kitName: { $regex: query, $options: 'i' } },
+          { gundamModel: { $regex: query, $options: 'i' } }
+        ]
+      }).skip(skip).limit(size);
+    }
+
+    res.json(kits);
+    console.log(kits);
+  } catch (error) {
+    console.error('Error searching for kits:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+
 //Fetches user data using token
 app.get('/api/user', authenticateToken, async (req, res) => {
   try {

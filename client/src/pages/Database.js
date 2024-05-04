@@ -5,6 +5,7 @@ import useFetchKit from '../components/FetchKits';
 import { useAuth } from '../components/AuthContext';
 import { fetchUserAuth } from '../components/FetchUserAuth';
 import './Database.css';
+import getTimelineFromKitID from '../components/GetTimelineFromKitID';
 
 export default function Database(){
   const { kitId } = useParams();
@@ -83,6 +84,10 @@ export default function Database(){
 
   if (!kit) {
     return <div>Kit not found</div>;
+  }
+
+  if (!kit.timeline) {
+      kit.timeline = getTimelineFromKitID(kit.kitId);
   }
 
   return (

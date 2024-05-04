@@ -2,12 +2,14 @@
     flex: auto;
     display: flex;
     justify-content: space-between;
-    background-color: rgb(235, 235, 235);
+    background-color: rgb(211, 211, 211);
     border-radius: 15px;
     min-height: 70px;
-    margin: 15px
+    margin: 15px;
+    max-height: 5vh;
 }
 .website-title {
+    max-width: 30%;
     margin: auto;
     margin-left: 10px;
     margin-right: 0px;
@@ -17,25 +19,24 @@
     text-decoration: none;
     -webkit-text-stroke-width: 1px;
     -webkit-text-stroke-color: rgba(0, 0, 0, 0.753);
+    flex-shrink: 1;
 }
 
 
 .nav-bar-navs {
     display: flex;
     margin: 5px;
-    flex-wrap: wrap;
     align-items: center;
-    justify-content: space-between;
     min-width: 15%;
-    
-    
+    font-weight: 700;
+    font-size: large;
+
 }
 
 .nav-bar-navs a {
     margin: 5px; 
-    color: rgb(255, 255, 255);
+    color: rgb(255, 140, 140);
     text-decoration: none;
-    background-color: rgba(255, 0, 0, 0.753);
     padding: 6px;
     border-radius: 7px;
   }
@@ -43,7 +44,8 @@
 
 
 .nav-bar-navs a:hover {
-    background-color: rgb(182, 182, 182);
+    background-color: rgb(255, 140, 140);
+    color: black;
     border-radius: 7px;
     padding: 6px;
 }
@@ -65,20 +67,23 @@
     align-items: center;
     justify-content: space-between;
     min-width: 15%;
+    font-weight: 700;
+    font-size: large;
+
 }
 
 .nav-bar-profile-nav a {
     margin: 5px;
-    color: white;
+    color: rgb(255, 140, 140);
     text-decoration: none;
-    background-color: rgba(255, 0, 0, 0.753);
     padding: 6px;
     border-radius: 7px;
   }
 
 
 .nav-bar-profile-nav a:hover {
-    background-color: rgb(182, 182, 182);
+    background-color: rgba(255, 140, 140);
+    color: black;
     border-radius: 7px;
     padding: 6px;
 }
@@ -94,16 +99,9 @@
         justify-content: flex-start;
         margin-left: 0px;
         padding-left: 0px;
-        font-size:0%;
-        width: 0%;
+        font-size: small;
 }
     
-    .nav-bar-navs a {
-        margin: auto;
-
-        padding: 0px;
-        border-radius: 0px;
-    }
 
     .nav-bar-login-navs {
         justify-content: flex-start;

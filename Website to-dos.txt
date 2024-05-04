@@ -1,0 +1,14 @@
+Website to-dos:
+Search back and forward buttons
+Set collection item widths to match search item widths
+Create logo and icons for navbar
+Review section on database page:
+	Overhaul reviews to be an array within a collection item
+	One review per item per user
+	Give reviews IDs that can be added to a gmsuser document
+	Allow links to reviews within a profile page 
+Add home page:
+	Work out a recommendation algorithm (use collection tags?)
+
+
+REVIEW RESEARCH TO ADD TO THIS PAGE!!!
