@@ -4,12 +4,10 @@ import '../pages/Search.css'
 
 let didInit = false;
 
-function SearchBar({ onSearchResults, pageSize }) { 
+function SearchBar({ onSearchResults, pageSize, }) { 
     const [query, setQuery] = useState('');
-    const [results, setResults] = useState([]);
     const [page, setPage] = useState(1);
     const [loading, setLoading] = useState(false);
-    const observer = useRef(null);
 
     useEffect (() => {
         if (!didInit) {
@@ -38,7 +36,6 @@ function SearchBar({ onSearchResults, pageSize }) {
                     pageSize: pageSize
                 }
             });
-            setResults(response.data);
             setPage(prevPage => prevPage + 1);
             setLoading(false);
             onSearchResults(response.data); // Pass search results to parent component

@@ -7,30 +7,64 @@ import { fetchUserAuth } from '../components/FetchUserAuth';
 import './Database.css';
 import getTimelineFromKitID from '../components/GetTimelineFromKitID';
 
+let didInit = false;
+
 export default function Database(){
   const { kitId } = useParams();
   const { kit, loading, error } = useFetchKit(kitId);
+  
   const { token } = useAuth();
   const [user, setUser] = useState(null);
+  const [kitInCollection, setKitInCollection] = useState(false);
   const [selectedStatus, setSelectedStatus] = useState(0);
   const [selectedRating, setSelectedRating] = useState(0);
 
   // Page load handler
   useEffect(() => {
-    const fetchUserData = async () => {
-      // Use token to determine logged in user
-      try {
-        const userData = await fetchUserAuth(token);
-        setUser(userData);
-      } catch (error) {
-        console.error('Error fetching user data:', error);
+    if (!didInit) {
+      didInit = true;
+  
+      const fetchUserData = async () => {
+        // Use token to determine logged in user
+        try {
+          const userData = await fetchUserAuth(token);
+          setUser(userData);
+        } catch (error) {
+          console.error('Error fetching user data:', error);
+        }
+      };
+      
+      
+      if (token) {
+        fetchUserData();
       }
-    };
-
-    if (token) {
-      fetchUserData();
     }
   }, [token]);
+
+  useEffect(() => {
+    const checkKitInCollection = async () => {
+      try {
+
+        const response = await fetch(`/api/user/collection/${user.username}`);
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch data');
+        }
+
+        const userCollection = await response.json();
+
+        if (userCollection.collection.some(item => item.kitId === kitId)) {
+          setKitInCollection(true);
+        }
+      } catch (error) {
+        console.error('Error checking if kit is in collection:', error);
+      } 
+    };
+
+    if (user) {
+      checkKitInCollection(user);
+    }
+  }, [user, kitId]);
 
   // Add to Collection button handler
   const handleAddToCollection = async () => {
@@ -110,7 +144,7 @@ export default function Database(){
           <button 
           className='database-add-to-collection-button' 
           onClick={handleAddToCollection}>
-          {user && user.collection && user.collection.includes(kitId) ? 'Update collection' : 'Add to collection'}
+          {kitInCollection ? 'Update collection' : 'Add to collection'}
           </button>
           <select 
           className='database-collection-rating-select'

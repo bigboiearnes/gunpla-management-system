@@ -37,15 +37,33 @@ export default function Collection(){
             <div className='collection-head-wrapper'>
                 <h1>{username}'s Collection</h1>
             </div>
+            <div className='list-head'>
+              <div className='collection-item'>
+                <div className='list-head-kit-details'>
+                  <div className="list-head-details-wrapper">
+                    <p className='collection-kit-box-art'/>
+                    <div className="collection-kit-details-text-wrapper">
+                    <p  className="headcollection-kit-name">Kit Name</p>
+                    <p className='collection-kit-release-date'></p>
+                    </div>
+                    <p className="collection-kit-grade">Grade</p>
+                  </div>
+                </div>
+                <div className='collection-item-stats-wrapper'>
+                  <div className='collection-item-stats-status'>Status</div>
+                  <div className='collection-item-stats-rating'>Rating</div>
+                </div>
+              </div>
+            </div>
+
             {targetUser && targetUser.collection && (
             <div className='collection-content-wrapper'>
                 {targetUser.collection.map((collectionItem, index) => (
                     <div className='collection-item' key={index}>
                         <KitDetails kitId={collectionItem.kitId} />
                         <div className='collection-item-stats-wrapper'>
-                            <div className='collection-item-stats'>{getStatusLabel(collectionItem.status)}</div>
-                            <div className='collection-item-stats'>Rating: {collectionItem.rating}</div>
-                            <div className='collection-item-stats'>Kit ID: {collectionItem.kitId}</div>
+                            <div className='collection-item-stats-status'>{getStatusLabel(collectionItem.status)}</div>
+                            <div className='collection-item-stats-rating'>{collectionItem.rating}</div>
                         </div>
                     </div>
                 ))}

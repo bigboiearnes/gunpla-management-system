@@ -238,9 +238,10 @@ app.post('/api/register', async (req, res) =>{
 
     // Encrypts password using a hash function
     const hashedPassword = await bcrypt.hash(password, 10);
+    console.log(hashedPassword);
 
     // Save new user into the database
-    const newUser = new User({ username, email, hashedPassword, registerDate, biography });
+    const newUser = new User({ username, email, password: hashedPassword, registerDate, biography });
     await newUser.save();
 
     // Create empty collection for user

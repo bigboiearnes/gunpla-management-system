@@ -1,7 +1,13 @@
 Website to-dos:
-Search back and forward buttons
-Set collection item widths to match search item widths
+Search back and forward buttons 🗸
+Fix MG collection - some kits have kitName and gundamModel swapped 🗸
+Database page recognises whether an item is in a users collection or not 🗸
+Fixing password registration error 🗸
+Redo collection to list 🗸
+Remove from collection button on collection and database pages
+Link matching kits
 Create logo and icons for navbar
+Collection page sorts
 Review section on database page:
 	Overhaul reviews to be an array within a collection item
 	One review per item per user
@@ -10,5 +16,5 @@ Review section on database page:
 Add home page:
 	Work out a recommendation algorithm (use collection tags?)
 
-
 REVIEW RESEARCH TO ADD TO THIS PAGE!!!
+(if time after all is done - scrape biographies for kits from gundam.fandom.com)

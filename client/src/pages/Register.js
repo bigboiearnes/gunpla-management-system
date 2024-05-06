@@ -16,7 +16,8 @@ export default function Register() {
     const handleRegister = async () => {
         // Validate password and email, then register new user in database
         try {
-            // Validate password
+            // Validate password 
+            console.log(password);
             if (validator.isStrongPassword(password, { 
                 minLength: 8, minLowercase: 1, 
                 minUppercase: 1, minNumbers: 1, minSymbols: 1 
@@ -26,6 +27,7 @@ export default function Register() {
                     // Validate username
                     if (validator.isAlphanumeric(username) && (username.length < 21)) {
                         // Pass details to the API
+
                         await axios.post('/api/register', { username, email, password, biography });
                         console.log('User registered successfully');
                         navigate('/login')
