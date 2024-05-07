@@ -1,6 +1,6 @@
 {
   "name": "client",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
   "proxy": "http://localhost:4000",
   "start": "ng serve --host 0.0.0.0",
@@ -9,6 +9,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.6.8",
+    "bad-words": "^3.0.4",
     "bcrypt": "^5.1.1",
     "node-gyp": "^10.1.0",
     "react": "^18.3.1",

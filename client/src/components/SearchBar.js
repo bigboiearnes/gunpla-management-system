@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../pages/Search.css'
 
@@ -23,13 +23,13 @@ function SearchBar({ onSearchResults, pageSize, }) {
                 searchKits(savedQuery, savedPage);
             }
         }
-    }, []);
+    }, [query, page]);
 
     const searchKits = async (query, page) => {
         try {
             setLoading(true);
 
-            const response = await axios.get('/api/kit/search/', {
+            const response = await axios.get('/api/kits/search/', {
                 params: {
                     query: query,
                     page: page,

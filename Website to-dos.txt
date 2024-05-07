@@ -1,20 +1,32 @@
-Website to-dos:
-Search back and forward buttons 🗸
-Fix MG collection - some kits have kitName and gundamModel swapped 🗸
-Database page recognises whether an item is in a users collection or not 🗸
-Fixing password registration error 🗸
-Redo collection to list 🗸
-Remove from collection button on collection and database pages
-Link matching kits
-Create logo and icons for navbar
-Collection page sorts
+Website Changelog/To-do:
+0.2.0
+	Search back and forward buttons 🗸
+	Fix MG collection - some kits have kitName and gundamModel swapped 🗸
+	Database page recognises whether an item is in a users collection or not 🗸
+	Fixing password registration error 🗸
+	Redo collection to list 🗸
+
+Remove from collection button on collection and database pages 🗸
+Add KitIDs to collection page 🗸
+Add Work in Progress status and allow ratings up to 10 for collection 🗸
+
 Review section on database page:
 	Overhaul reviews to be an array within a collection item
 	One review per item per user
-	Give reviews IDs that can be added to a gmsuser document
 	Allow links to reviews within a profile page 
+
+next page button removes query
+
+Create logo and icons for navbar
+Friend system
+Allow users to add tags to database items
+Collection page sorts
+Link image to collection item
+
 Add home page:
 	Work out a recommendation algorithm (use collection tags?)
+
+Link matching kits
 
 REVIEW RESEARCH TO ADD TO THIS PAGE!!!
 (if time after all is done - scrape biographies for kits from gundam.fandom.com)

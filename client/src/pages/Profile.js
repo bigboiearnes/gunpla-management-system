@@ -82,8 +82,6 @@ export default function Profile(){
       throw new Error('Failed to update collection');
     }
 
-    
-
     // Alert user to successful operation
     alert('Biography updated successfully');
     // Refresh page to update data
@@ -138,11 +136,11 @@ export default function Profile(){
         ) : (
           <div className='profile-page-content'>
             <div className='profile-button-wrapper'>
-            {usernamesMatch && (
-              <button className='profile-edit-biography-button' onClick={handleToggleEditMode}>
-                {editMode ? 'Cancel' : 'Edit Biography'}
-              </button>
-            )}
+              {usernamesMatch && (
+                <button className='profile-edit-biography-button' onClick={handleToggleEditMode}>
+                  {editMode ? 'Cancel' : 'Edit Biography'}
+                </button>
+              )}
             </div>
             <div className='profile-biography-box-wrapper'>
               <p className='profile-biography-box'>{targetUser.biography}</p>

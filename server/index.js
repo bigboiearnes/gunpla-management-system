@@ -22,29 +22,13 @@ mongoose.connect('mongodb://connorearneybs3221:IwT3a5xY75iviD3407DWDJBUPzcMYZPyC
 app.use(bodyParser.json());
 app.use(cors())
 
-//Fetches kit using kitId
-app.get('/api/kits/:kitId', async (req, res) =>{
-  try {
-    // Find kit in database using kitId
-    const kit = await Kit.findOne({ kitId: req.params.kitId });
 
-    // If there is no kit, return error
-    if (!kit) {
-      return res.status(404).json({ error: 'Kit not found' });
-    }
-    res.json(kit);
-  } catch (error) {
-    console.error('Error occurred while fetching kit:', error);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-});
 
 // Searches kits for query and returns matches
-app.get('/api/kit/search/', async (req, res) => {
+app.get('/api/kits/search', async (req, res) => {
   const { query, page, pageSize } = req.query;
   const pageNumber = parseInt(page, 10) || 1;
   const size = parseInt(pageSize, 10) || 10;
-  console.log(query);
 
   try {
     // Calculate the number of documents to skip based on the page number and page size
@@ -66,13 +50,103 @@ app.get('/api/kit/search/', async (req, res) => {
     }
 
     res.json(kits);
-    console.log(kits);
   } catch (error) {
     console.error('Error searching for kits:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
 
+// POST route to like a review
+app.post('/api/kits/review/like', authenticateToken, async (req, res) => {
+  const { kitId, username } = req.body;
+  const likerUsername = req.user.username;
+  try {
+    let kit = await Kit.findOne({ kitId });
+    if (!kit) {
+      return res.status(404).json({ error: 'Kit not found' });
+    }
+
+    // Find the review in the usersReviewed array
+    const review = kit.usersReviewed.find(review => review.username === username);
+    if (!review) {
+      return res.status(404).json({ error: 'Review not found' });
+    }
+
+    // Check if the user already dislikes the review
+    const dislikeIndex = review.reviewDislikes.indexOf(likerUsername);
+    if (dislikeIndex !== -1) {
+      review.reviewDislikes.splice(dislikeIndex, 1);
+    }
+
+    // Check if the user already likes the review
+    const likeIndex = review.reviewLikes.indexOf(likerUsername);
+    if (likeIndex === -1) {
+      review.reviewLikes.push(likerUsername);
+    }
+
+    await kit.save();
+
+    res.status(200).json({ message: 'Review liked successfully' });
+  } catch (error) {
+    console.error('Error occurred while liking review:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// POST route to dislike a review
+app.post('/api/kits/review/dislike', authenticateToken, async (req, res) => {
+  const { kitId, username } = req.body;
+  const dislikerUsername = req.user.username;
+  try {
+    let kit = await Kit.findOne({ kitId });
+    if (!kit) {
+      return res.status(404).json({ error: 'Kit not found' });
+    }
+
+    // Find the review in the usersReviewed array
+    const review = kit.usersReviewed.find(review => review.username === username);
+    if (!review) {
+      return res.status(404).json({ error: 'Review not found' });
+    }
+
+    // Check if the user already likes the review
+    const likeIndex = review.reviewLikes.indexOf(dislikerUsername);
+    if (likeIndex !== -1) {
+      review.reviewLikes.splice(likeIndex, 1);
+    }
+
+    // Check if the user already dislikes the review
+    const dislikeIndex = review.reviewDislikes.indexOf(dislikerUsername);
+    if (dislikeIndex === -1) {
+      review.reviewDislikes.push(dislikerUsername);
+    }
+
+    await kit.save();
+
+    res.status(200).json({ message: 'Review disliked successfully' });
+  } catch (error) {
+    console.error('Error occurred while disliking review:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+//Fetches kit using kitId
+app.get('/api/kits/:kitId', async (req, res) =>{
+  try {
+    // Find kit in database using kitId
+    const kit = await Kit.findOne({ kitId: req.params.kitId });
+
+    // If there is no kit, return error
+    if (!kit) {
+      return res.status(404).json({ error: 'Kit not found' });
+    }
+
+    res.json(kit);
+  } catch (error) {
+    console.error('Error occurred while fetching kit:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
 
 //Fetches user data using token
 app.get('/api/user', authenticateToken, async (req, res) => {
@@ -143,10 +217,14 @@ app.post('/api/user/update', authenticateToken, async (req, res) => {
 });
 
 // Adds gunpla to user collection, uses token to derive user
-app.post('/api/user/collection', authenticateToken, async (req, res) => {
+app.post('/api/user/collection/add', authenticateToken, async (req, res) => {
   try {
     const { kitId, status, rating, review } = req.body;
     const username = req.user.username;
+
+    if ((rating || status) > 10 || (rating || status) < 0 ) {
+      res.status(403).json({error: 'Forbidden'});
+    }
 
     let userCollection = await Collection.findOne({ username });
 
@@ -162,9 +240,33 @@ app.post('/api/user/collection', authenticateToken, async (req, res) => {
     if (index !== -1) {
       userCollection.collection[index].status = status;
       userCollection.collection[index].rating = rating;
+      // If review does not exist then ignore rest of code
       if (review !== undefined) {
-        userCollection.collection[index].review = review;
+        // If reviewed is marked for deletion, set it as empty, this way it should not be read
+        if (review === "DELETE") {
+          console.log(review)
+          userCollection.collection[index].review = null;
+        } else {
+          // If the review exists
+          userCollection.collection[index].review = review;
+          // Find the kit that matches
+          let kit = await Kit.findOne({ kitId });
+          if (kit) {
+            // find existing review
+            const reviewFind = kit.usersReviewed.find(review => review.username === username);
+            console.log(reviewFind);
+            // if review doesn't exist in database then push link to review to kit
+            if (!reviewFind) {
+              kit.usersReviewed.push({ username, reviewLikes: [username], reviewDislikes: [] });
+              await kit.save();
+            } else {
+              userCollection.collection[index].review = review;
+            }
+            
+        }
       }
+    }
+      
     } else {
       // If item with provided kitId doesn't exist, add it to the collection array
       userCollection.collection.push({ kitId, status, rating, review });
@@ -179,6 +281,36 @@ app.post('/api/user/collection', authenticateToken, async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+
+// Removes kit from user collection, uses token to derive user
+app.post('/api/user/collection/remove', authenticateToken, async (req, res) => {
+  try {
+    const { kitId } = req.body;
+    const username = req.user.username;
+
+    let userCollection = await Collection.findOne({ username });
+
+    if (!userCollection) {
+      return res.status(404).json({error: 'User not found'});
+    }
+
+    const index = userCollection.collection.findIndex(item => item.kitId === kitId);
+
+    if (index !== -1) {
+      userCollection.collection[index].deleteOne();
+    } else {
+      return res.status(404).json({error: 'Kit not found in collection'})
+    }
+
+    await userCollection.save();
+
+    res.status(200);
+    } catch (error) {
+      console.error('Error occured whilst removing kit from collection:', error);
+      res.status(500).json({ error: 'Internal server error'})
+    }
+});
+
 
 //Fetch users collection using username
 app.get('/api/user/collection/:username', async (req, res) => {
@@ -238,7 +370,6 @@ app.post('/api/register', async (req, res) =>{
 
     // Encrypts password using a hash function
     const hashedPassword = await bcrypt.hash(password, 10);
-    console.log(hashedPassword);
 
     // Save new user into the database
     const newUser = new User({ username, email, password: hashedPassword, registerDate, biography });

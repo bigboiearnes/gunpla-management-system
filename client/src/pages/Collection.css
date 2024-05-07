@@ -18,14 +18,13 @@
     flex-wrap: wrap;
     justify-content: space-between;
     background-color: rgb(255, 255, 255);
-    border-radius: 0 0 15px 15px;
 
 }
 
 .collection-item {
     display: flex;
     width: 100%;
-    border-radius: 15px;
+    border-bottom: 1px solid gray;
 }
 
 .collection-kit-details-wrapper {
@@ -101,22 +100,39 @@
     margin: auto;
     min-width: 130px;
     text-align: center;
+}
 
+.collection-kitid {
+    margin: auto;
+    min-width: 130px;
+    text-align: center;
 }
 
 .collection-item-stats-rating {
     padding-left: 10px;
     font-size: small;
-    max-width: 45px;
-    min-width: 45px;
+    max-width: 60px;
+    min-width: 60px;
     text-align: center;
 }
 
 .collection-item-stats-status {
     font-size: small;
-    max-width: 45px;
-    min-width: 45px;
+    max-width: 60px;
+    min-width: 60px;
     text-align: center;
+}
+
+.collection-remove-button-wrapper {
+    min-width: 66px;
+    margin: auto;
+    margin-right: 10px;
+}
+
+.collection-remove-button {
+    padding: 0px;
+    border: 0;
+    color: red;
 }
 
 .list-head-kit-details {

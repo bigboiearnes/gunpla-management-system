@@ -1,5 +1,11 @@
 const mongoose = require('mongoose');
 
+const usersReviewedSchema = new mongoose.Schema ({
+  username: String,
+  reviewLikes: [String],
+  reviewDislikes: [String]
+})
+
 const kitSchema = new mongoose.Schema({
   id: String, 
   kitId: String,
@@ -13,7 +19,8 @@ const kitSchema = new mongoose.Schema({
   scale: String,
   accessories: [String], 
   biography: String,
-  timeline: String
+  timeline: String,
+  usersReviewed: [usersReviewedSchema]
 });
 
 module.exports = mongoose.model('Kit', kitSchema, 'gmskits');
