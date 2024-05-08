@@ -11,7 +11,7 @@ import { fetchUserAuth } from '../components/FetchUserAuth';
 import getTimelineFromKitID from '../components/GetTimelineFromKitID';
 import RemoveFromCollection from '../components/RemoveFromCollection';
 import AddToCollection from '../components/AddToCollection';
-import UserReviews from '../components/UserReviews';
+import UserReviews from '../components/userReviews';
 
 import './Database.css';
 
