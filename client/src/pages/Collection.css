@@ -108,6 +108,10 @@
     text-align: center;
 }
 
+.collection-kit-build-image {
+    max-width: 30vw;
+    max-height: 30vw;
+}
 .collection-item-stats-rating {
     padding-left: 10px;
     font-size: small;
@@ -130,9 +134,11 @@
 }
 
 .collection-remove-button {
-    padding: 0px;
-    border: 0;
+    padding: 1px;
     color: red;
+    border: 0;
+    background-color: rgb(231, 231, 231);
+
 }
 
 .list-head-kit-details {
@@ -154,6 +160,8 @@
 
 /* Styles for the pop-up content */
 .modal-content {
+    display: flex;
+    flex-direction: column;
     background-color: white;
     padding: 20px;
     border-radius: 8px;
@@ -189,10 +197,30 @@ body.modal-open {
     }
     
 
-
     .collection-kit-box-art {
-        flex-shrink: 1;
-        width: 60%;
         align-self: center;
     }
+
+    .collection-item {
+        flex-wrap: wrap;
+        flex-direction: column;
+    }
+
+    .collection-kit-details-wrapper {
+        flex-direction: column;
+    }
+
+    .collection-item-stats-status {
+        font-size: large;
+    }
+    
+    .collection-item-stats-rating {
+        font-size: large;
+    }
+
+    .collection-kit-info-wrapper {
+        display: flex;
+        flex-direction: row;
+    }
 }
+

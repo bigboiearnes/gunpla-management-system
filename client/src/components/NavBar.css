@@ -138,17 +138,30 @@
 
 @media screen and (max-width: 640px) {
     .website-title {
+        margin:18px;
         margin-right: 0px;
         padding-right: 0px;
         font-size: large;
-    }
+        min-height: 30px;
+        max-width: 30px;
+        max-height: 30px;
+        text-align: center;
+        }
     
+    .nav-search-icon {
+        margin: auto;
+        margin-left: 0;
+        margin-right: 0;
+        max-width: 30px;
+        max-height: 30px;
+    }
+
     .nav-bar-navs {
         justify-content: flex-start;
         margin-left: 0px;
         padding-left: 0px;
         font-size: small;
-}
+        }
     
 
     .nav-bar-login-navs {
@@ -176,4 +189,8 @@
         min-width: 100px; 
     }
     
+    .nav-collection-icon {
+        max-width: 30px;
+        
+    }
 }

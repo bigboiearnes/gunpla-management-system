@@ -27,32 +27,58 @@ app.use(cors())
 
 // Searches kits for query and returns matches
 app.get('/api/kits/search', async (req, res) => {
-  const { query, page, pageSize } = req.query;
+  const { query, page, pageSize, kitGrade } = req.query;
   const pageNumber = parseInt(page, 10) || 1;
   const size = parseInt(pageSize, 10) || 10;
 
   try {
-    // Calculate the number of documents to skip based on the page number and page size
-    const skip = (pageNumber - 1) * size;
+      // Calculate the number of documents to skip based on the page number and page size
+      const skip = (pageNumber - 1) * size;
 
-    let kits;
+      let queryObj;
 
-    // Search by kitId first
-    kits = await Kit.find({ kitId: { $regex: query, $options: 'i' } }).skip(skip).limit(size);
+      // Search by kitId first
+      if (/^[A-Z]+[0-9A-Z]*$/.test(query)) {
+          // If the query is a valid kitId, search by kitId
+          queryObj = { kitId: {$regex: query} };
+      } else {
+          // If the query is not a valid kitId, search by kitName, gundamModel, and kitGrade
+          queryObj = {
+              $or: [
+                  { kitName: { $regex: query, $options: 'i' } },
+                  { gundamModel: { $regex: query, $options: 'i' } }
+              ]
+          };
 
-    // If no results found by kitId, then search by kitName and gundamModel
-    if (kits.length === 0) {
-      kits = await Kit.find({
-        $or: [
-          { kitName: { $regex: query, $options: 'i' } },
-          { gundamModel: { $regex: query, $options: 'i' } }
-        ]
-      }).skip(skip).limit(size);
-    }
+          // If kitGrade is provided, add it to the query object
+          if (kitGrade) {
+              queryObj.kitGrade = kitGrade;
+          }
+      }
 
-    res.json(kits);
+      // Search kits
+      const kits = await Kit.find(queryObj)
+          .skip(skip)
+          .limit(size);
+
+      res.json(kits);
   } catch (error) {
-    console.error('Error searching for kits:', error);
+      console.error('Error searching for kits:', error);
+      res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// API route to fetch related kits based on gundamModel
+app.get('/api/kits/related', async (req, res) => {
+  const { gundamModel } = req.query;
+
+  try {
+    // Find all kits with a gundamModel exactly matching the provided value (case-insensitive)
+    const relatedKits = await Kit.find({ gundamModel: { $regex: `^${gundamModel}$`, $options: 'i' } });
+
+    res.json(relatedKits);
+  } catch (error) {
+    console.error('Error fetching related kits:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
@@ -97,6 +123,24 @@ app.post('/api/kits/tag/add', authenticateToken, async (req, res) => {
   } catch (error) {
     console.error('Error adding tag to kit:', error);
     res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+
+// Get top ten kits by a tag
+app.get('/api/kits/top-by-tag/:tag', async (req, res) => {
+  const { tag } = req.params;
+
+  try {
+    // Query the database to find the top 10 kits with the specified tag
+    const topKits = await Kit.find({ 'userTags.tag': tag })
+                             .sort({ 'userTags.length': -1 })
+                             .limit(10);
+
+    res.json(topKits);
+  } catch (error) {
+    console.error('Error fetching top kits by tag:', error);
+    res.status(500).json({ message: 'Internal server error' });
   }
 });
 
@@ -172,6 +216,42 @@ app.post('/api/kits/review/dislike', authenticateToken, async (req, res) => {
   } catch (error) {
     console.error('Error occurred while disliking review:', error);
     res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// Fetch most recently released kits for the current year and previous year if needed
+app.get('/api/kits/get/recently-released', async (req, res) => {
+  try {
+    // Get the current year
+    const currentYear = new Date().getFullYear();
+
+    // Retrieve the 10 most recently released kits for the current year
+    const currentYearKits = await Kit.find({ releaseYear: currentYear })
+      .sort({ releaseMonth: -1 }) // Sort by releaseMonth in descending order (12-1)
+      .limit(10);
+
+    // Check if we have less than 10 kits for the current year
+    const currentYearKitCount = currentYearKits.length;
+    if (currentYearKitCount < 10) {
+      // Calculate how many kits we need to fetch from the previous year
+      const remainingKitsCount = 10 - currentYearKitCount;
+
+      // Retrieve additional kits from the previous year to complete the list
+      const previousYear = currentYear - 1;
+      const previousYearKits = await Kit.find({ releaseYear: previousYear })
+        .sort({ releaseMonth: -1 }) // Sort by releaseMonth in descending order (12-1)
+        .limit(remainingKitsCount);
+
+      // Combine the kits from both years
+      const allKits = [...currentYearKits, ...previousYearKits];
+
+      res.json(allKits);
+    } else {
+      res.json(currentYearKits);
+    }
+  } catch (error) {
+    console.error('Error fetching recently released kits:', error);
+    res.status(500).json({ message: 'Internal server error' });
   }
 });
 
@@ -354,10 +434,11 @@ app.post('/api/user/collection/add', authenticateToken, async (req, res) => {
 app.post('/api/user/collection/add-image', authenticateToken, async (req, res) =>{
   const { kitId, imageUrl } = req.body;
   const username = req.user.username;
+  const uploadDate = new Date();
   try {
     const collection = await Collection.findOneAndUpdate(
       { username, 'collection.kitId': kitId },
-      { $set: { 'collection.$.image': imageUrl } },
+      { $set: { 'collection.$.image': imageUrl, 'collection.$.uploadDate': uploadDate } },
       { new: true }
     );
 
@@ -603,6 +684,50 @@ app.get('/api/friends/requests/:username', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 })
+
+// Fetch friends most recent uploads
+app.get('/api/friends/recent-uploads', authenticateToken, async (req, res) => {
+  const currentUser = req.user.username;
+
+  try {
+      // Retrieve users friends
+      const friends = await Friendship.find({
+          $or: [{ sender: currentUser}, { receiver: currentUser}],
+          status: 'accepted'
+      });
+
+      // Retreive recent uploads for each friend
+      const recentUploads = [];
+      for (const friend of friends) {
+          let friendUsername;
+          if (friend.sender === currentUser) {
+              friendUsername = friend.receiver;
+          } else {
+              friendUsername = friend.sender;
+          }
+
+          const friendCollection = await Collection.findOne({ username: friendUsername })
+              .sort({ 'collection.uploadDate': -1})
+              .limit(10);
+
+          if (friendCollection) {
+              const uploads = friendCollection.collection.map(upload => ({
+                  ...upload.toObject(),
+                  username: friendUsername // Include the username associated with the collection image
+              }));
+              recentUploads.push(...uploads);
+          }
+      }
+
+      // Sort and return the recent uploads
+      recentUploads.sort((a, b) => new Date(b.uploadDate) - new Date(a.uploadDate));
+      res.json(recentUploads.slice(0, 10));
+  } catch (error) {
+      console.error('Error fetching recent uploads for friends:', error);
+      res.status(500).json({ message: 'Internal server error' });
+  } 
+});
+
 
 // Accept friend request
 app.post('/api/friends/accept', authenticateToken, async (req, res) => {

@@ -1,0 +1,80 @@
+.home-page-wrapper {
+    flex: auto;
+    display: flex;
+    flex-direction: column;
+    margin: 15px;
+    background-color: rgb(231, 231, 231);
+    border-radius: 15px;
+}
+
+.home-head-wrapper {
+    text-align: center;
+    background-color: lightgray;
+    border-radius: 15px 15px 0 0;
+}
+
+.home-title-image {
+    border-radius: 110px;
+    max-height: 30vh;
+    margin:10px;
+}
+
+.home-card-image {
+    background-color: lightgray;
+    padding: 10px;
+    border-radius: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Shadow effect */
+    max-width: 15vw; /* Set maximum width for images */
+    max-height: 15vh;
+    min-height: 140px;
+    min-width: 100px;
+}
+
+.home-card-row {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scroll-padding-block-start: 1;
+    justify-content: flex-start;
+    margin-bottom: 10px;
+}
+
+.home-card {
+    background-color: lightgray;
+    padding: 10px;
+    border-radius: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Shadow effect */
+    margin:10px;
+    font-weight: 600;
+    font-size: large;
+    text-align: center;
+    border: 1px gray solid;
+    max-height: min-content;
+}
+
+.home-description {
+    margin: 10px;
+}
+
+.home-card-row-wrapper {
+    background-color: darkgrey;
+    border-radius: 15px;
+    padding: 10px;
+    margin: 10px;
+}
+
+.home-section-header {
+    text-align: center;
+    background-color: lightgray;
+    
+    padding: 5px;
+    border-radius: 15px;
+}
+
+@media screen and (max-width: 640px) {
+
+.home-card {
+    min-width: 140px;
+}
+
+}

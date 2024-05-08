@@ -10,6 +10,7 @@ export default function Search() {
     const [page, setPage] = useState(1);
     const pageSize = 18; // Number of results for search bar to return
     const [loading, setLoading] = useState(false);
+    const [selectedGrade, setSelectedGrade] = useState(''); // State to hold selected kitGrade
 
     useEffect (() => {
         if (!didInit) {
@@ -17,12 +18,14 @@ export default function Search() {
             const urlParams = new URLSearchParams(window.location.search);
             const savedPage = parseInt(urlParams.get('page')) || 1;
             const savedQuery = urlParams.get('query') || '';
+            const savedGrade = urlParams.get('grade') || '';
 
             setPage(savedPage);
             setQuery(savedQuery);
+            setSelectedGrade(savedGrade);
 
             if (savedQuery) {
-                searchKits(savedQuery, savedPage);
+                searchKits(savedQuery, savedPage, savedGrade);
             }
         }
     }, []);
@@ -35,7 +38,8 @@ export default function Search() {
                 params: {
                     query: query,
                     page: page,
-                    pageSize: pageSize
+                    pageSize: pageSize,
+                    kitGrade: selectedGrade
                 }
             });
             setPage(prevPage => prevPage + 1);
@@ -47,6 +51,11 @@ export default function Search() {
         }
     };
 
+    // Handle change in selected kitGrade
+    const handleGradeChange = (event) => {
+        setSelectedGrade(event.target.value);
+    };
+
     const handleInputChange = (event) => {
         setQuery(event.target.value)
     };
@@ -55,7 +64,7 @@ export default function Search() {
         event.preventDefault();
         setPage(1); // Reset page to 1 when a new query is submitted
         searchKits(query, 1); // Always start searching from page 1
-        const params = new URLSearchParams({ query, page: 1 }); // Update URL with page 1
+        const params = new URLSearchParams({ query, page: 1, grade: selectedGrade }); // Update URL with page 1
         window.history.pushState({}, '', `${window.location.pathname}?${params}`);
     };
 
@@ -67,11 +76,13 @@ export default function Search() {
         const urlParams = new URLSearchParams(window.location.search);
         const prevPage = (parseInt(urlParams.get('page'))-1) || 1;
         const savedQuery = urlParams.get('query') || '';
+        const savedGrade = urlParams.get('grade') || '';
 
         setPage(prevPage);
         setQuery(savedQuery);
+        setSelectedGrade(savedGrade);
 
-        const params = new URLSearchParams({ query, page: prevPage }); // Update URL with previous page
+        const params = new URLSearchParams({ query, page: prevPage, grade: selectedGrade }); // Update URL with previous page
         const newUrl = `${window.location.pathname}?${params}`;
         window.history.pushState({}, '', newUrl);
 
@@ -82,11 +93,14 @@ export default function Search() {
         const urlParams = new URLSearchParams(window.location.search);
         const nextPage = (parseInt(urlParams.get('page')) + 1) || 1;
         const savedQuery = urlParams.get('query') || '';
+        const savedGrade = urlParams.get('grade') || '';
+
 
         setPage(nextPage);
         setQuery(savedQuery);
+        setSelectedGrade(savedGrade);
 
-        const params = new URLSearchParams({ query, page: nextPage }); // Update URL with next page
+        const params = new URLSearchParams({ query, page: nextPage, grade: selectedGrade }); // Update URL with next page
         const newUrl = `${window.location.pathname}?${params}`;
         window.history.pushState({}, '', newUrl);
 
@@ -100,6 +114,15 @@ export default function Search() {
                     <div>
                         <button onClick={handleBack}>Back</button>
                     </div>
+                    <select value={selectedGrade} onChange={handleGradeChange}>
+                        <option value="">All Grades</option>
+                        <option value="High Grade">High Grade</option>
+                        <option value="Perfect Grade">Perfect Grade</option>
+                        <option value="Master Grade">Master Grade</option>
+                        <option value="Real Grade">Real Grade</option>
+                        <option value="Advanced Grade">Advanced Grade</option>
+
+                    </select>
                     <form onSubmit={handleSubmit}>
                         <input
                             className='search-bar-input'

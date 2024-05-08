@@ -11,7 +11,7 @@ import { fetchUserAuth } from '../components/FetchUserAuth';
 import getTimelineFromKitID from '../components/GetTimelineFromKitID';
 import RemoveFromCollection from '../components/RemoveFromCollection';
 import AddToCollection from '../components/AddToCollection';
-import UserReviews from '../components/userReviews';
+import UserReviews from '../components/UserReviews';
 
 import './Database.css';
 
@@ -29,6 +29,7 @@ export default function Database(){
   const [showAddTags, setShowAddTags] = useState(false);
   const [tagInput, setTagInput] = useState(null);
   const [tagWarningLabel, setTagWarningLabel] = useState('');
+  const [relatedKits, setRelatedKits] = useState([]);
 
   // Page load handler
   useEffect(() => {
@@ -82,7 +83,26 @@ export default function Database(){
     if (user) {
       checkKitInCollection(user);
     }
-  }, [user, kitId]);
+
+    // Fetch related kits
+    const fetchRelatedKits = async () => {
+      try {
+        const response = await axios.get(`/api/kits/related`, {
+          params: {
+            gundamModel: kit.gundamModel
+          }
+        });
+        setRelatedKits(response.data);
+      } catch (error) {
+        console.error('Error fetching related kits:', error);
+      }
+    };
+
+    if (kit) {
+      fetchRelatedKits();
+    }
+
+  }, [user, kitId, kit]);
 
   const handleAddToCollection = async () => {
     await AddToCollection({ token, selectedStatus, selectedRating, kitId: kit.kitId })
@@ -271,6 +291,23 @@ export default function Database(){
                   )}
                 </div>
                 }
+              </div>
+              <div className="related-kits-wrapper">
+                <h2>Related Kits:</h2>
+                {relatedKits.length > 0 ? (
+                  <ul>
+                    {relatedKits.map((relatedKit, index) => (
+                      // Check if the relatedKit's kitId is different from the current kit's kitId
+                      relatedKit.kitId !== kit.kitId && (
+                        <li key={index}>
+                          <a href={`/database/${relatedKit.kitId}`}>{relatedKit.kitName} - {relatedKit.kitGrade} - {relatedKit.kitId}</a>
+                        </li>
+                      )
+                    ))}
+                  </ul>
+                ) : (
+                  <p>No related kits found.</p>
+                )}
               </div>
           </div>
         </div>

@@ -92,6 +92,12 @@
     border: 2px rgb(128, 0, 0) solid;
 }
 
+.related-kits-wrapper {
+    margin: 10px;
+    padding: 5px;
+    border-radius: 15px;
+    background-color: lightgray;
+}
 
 
 @media (max-width: 640px) {
@@ -104,6 +110,7 @@
         flex-direction: row;
         flex: content;
         width: auto;
+        max-width: none;
         flex-wrap: wrap;
         align-items: center;
         border-radius: 15px 15px 0px 0px;
@@ -121,9 +128,18 @@
         margin: 1px;
     }
 
+    .database-kit-accessories-list {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        width: 80%;
+    }
+
     .database-collection-wrapper {
         display: flex;
+        flex-wrap: wrap;
         flex-shrink: 1;
+        max-width: 100%;
         border-radius: 10px;
         padding: auto;
         margin: 5px;
@@ -147,5 +163,23 @@
     .database-collection-status-select {
         display: flex;
         padding: 5px 10px;
+    }
+
+    .review-body {
+        flex-direction: column;
+    }
+
+    .review-head {
+        text-align: center;
+    }
+
+    .review-stat {
+        text-align: center;
+        margin: auto;
+        padding: 5px;
+    }
+
+    .collection-image  {
+        margin: auto;
     }
   }

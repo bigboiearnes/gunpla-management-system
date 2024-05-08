@@ -5,7 +5,8 @@ const collectionItemSchema = new mongoose.Schema({
   status: String, 
   rating: Number, //1-5
   review: String,
-  image: String // URL pointing to image of user build
+  image: String, // URL pointing to image of user build
+  uploadDate: Date
 });
 
 const userCollectionSchema = new mongoose.Schema({

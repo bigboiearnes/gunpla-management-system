@@ -129,14 +129,7 @@
     max-width: 20vw; /* Set maximum width for images */
 }
 
-a {
-    text-decoration: none;
-    color: red;
-}
 
-a:hover {
-    text-decoration: underline;
-}
 
 .friend-item {
     justify-content: space-between;

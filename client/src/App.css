@@ -73,3 +73,12 @@ h1 {
   -webkit-text-stroke-color: rgba(0, 0, 0, 0.753);
   font-weight: 400;
 }
+
+a {
+  text-decoration: none;
+  color: red;
+}
+
+a:hover {
+  text-decoration: underline;
+}

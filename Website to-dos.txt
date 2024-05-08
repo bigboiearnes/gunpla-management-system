@@ -31,9 +31,12 @@ Website Changelog/To-do:
 	Show images in profile 🗸
 	Account Profile picture 🗸
 
+1.0.0
 Add home page:
-	Work out a recommendation algorithm (use collection tags?)
-Link matching kits
+	Show recommended kits by tags (beginner, fun, easy) 🗸
+	Show friends most recent image uploads 🗸
+	Show most recently released kits 🗸
+Search by grade 🗸
+Link matching kits 🗸
 
-REVIEW RESEARCH TO ADD TO THIS PAGE!!!
 (if time after all is done - scrape biographies for kits from gundam.fandom.com)

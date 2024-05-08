@@ -214,6 +214,7 @@ export default function Collection() {
                     <div className='list-head-kit-details'>
                         <div className="list-head-details-wrapper">
                             <div className="collection-kit-details-wrapper">
+                                
                                 <p className='collection-kit-box-art'></p>
                                 <div className="collection-kit-details-text-wrapper">
                                     <p className="headcollection-kit-name">Kit Name</p>
@@ -246,7 +247,7 @@ export default function Collection() {
                         <button className='collection-show-add-image' onClick={() => setShowImageIndex(index)}>Show Image</button>
                         }
                         {showImageIndex === index &&
-                        <div className='modal-overlay'>
+                        <div className='modal-overlay' onClick={() => setShowImageIndex(-1)}>
                           <div className='modal-content'>  
                             <img className='collection-kit-build-image' src={collectionItem.image} alt='User Gunpla' />
                             <button className='collection-show-add-image' onClick={() => setShowImageIndex(-1)}>Close Image</button>

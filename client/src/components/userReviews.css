@@ -110,7 +110,7 @@
     align-self: flex-end;
     background-color: lightgray;
     padding: 10px;
-    margin-left: 30px;
+    margin: auto;
     border-radius: 15px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Shadow effect */
     max-height: 30vh; /* Set maximum width for images */

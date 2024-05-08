@@ -114,7 +114,7 @@ export default function NavBar() {
        alt='GUNPLA MANAGEMENT SYSTEM' 
        className='website-title' />
       </NavLink>
-      <nav className='nav-bar-navs'>
+      <nav className='nav-search-icon'>
         <NavLink to="/search">
           <img 
             src='https://i.ibb.co/1TFx9t8/Search.jpg'

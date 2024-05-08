@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Filter from "bad-words";
-import './userReviews.css'
+import './UserReviews.css'
 
 function UserReviews ({ selectedStatus, selectedRating, kitId, reviewers, token }) {
     const [reviews, setReviews] = useState('');
@@ -244,9 +244,9 @@ function UserReviews ({ selectedStatus, selectedRating, kitId, reviewers, token 
                                         <p className="review-stat">{getRatingLabel(review.rating)}</p>
                                     </div>
                                     <div className="review-like-buttons">
+                                        <p className="review-content">{getReviewText(review.review)}</p>
                                         <button onClick={() => handleLikeReview(kitId, review.username)}>Likes: {review.likes}</button>
                                         <button onClick={() => handleDislikeReview(kitId, review.username)}>Dislikes: {review.dislikes}</button>
-                                        <p className="review-content">{getReviewText(review.review)}</p>
                                     </div>
                                 </div>
                                 <div className="review-content-wrapper">
