@@ -9,7 +9,7 @@ const useFetchUserCollection = (username) => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await fetch(`/api/user/collection/${username}`);
+        const response = await fetch(`/api/user/collection/fetch/${username}`);
         if (!response.ok) {
           throw new Error('Failed to fetch data');
         }

@@ -29,10 +29,7 @@ const AddToCollection = async ({token, selectedStatus, selectedRating, kitId}) =
     // If there is no response send an error
     if (!response.data) {
       throw new Error('Failed to update collection');
-    }
-
-    // Refresh the page to show updated information
-    window.location.reload();    
+    }  
 
     // If any unhandled errors occur, alert user
   } catch (error) {

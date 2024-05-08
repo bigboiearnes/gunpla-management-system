@@ -9,6 +9,7 @@ const authenticateToken = require('./authenticateToken')
 const Kit = require('./model/Kit');
 const User = require ('./model/User');
 const Collection = require('./model/Collection');
+const Friendship = require('./model/Friendship')
 
 const app = express();
 const port = 4000;
@@ -55,6 +56,50 @@ app.get('/api/kits/search', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+
+// POST route to add a tag to a kit
+app.post('/api/kits/tag/add', authenticateToken, async (req, res) => {
+  const { kitId, tag } = req.body;
+  
+  // Extract username from the request's decoded token
+  const username = req.user.username;
+
+  try {
+    let kit = await Kit.findOne({ kitId });
+    if (!kit) {
+      return res.status(404).json({ error: 'Kit not found' });
+    }
+
+    // If userTags array doesn't exist, create it
+    kit.userTags ??= [];
+
+    // Count how many times the user's username appears in userTags array
+    const userTagCount = kit.userTags.filter(t => t.username === username).length;
+
+    // If user's username appears five times, find and remove the first occurrence
+    if (userTagCount >= 5) {
+      const firstUserTagIndex = kit.userTags.findIndex(t => t.username === username);
+      kit.userTags.splice(firstUserTagIndex, 1);
+    }
+
+    // Check if the user has submitted more than 5 tags
+    if (kit.userTags.length >= 5) {
+      // Remove the first tag
+      kit.userTags.shift();
+    }
+
+    // Add the new tag along with the username
+    kit.userTags.push({ tag, username });
+
+    await kit.save();
+
+    res.status(200).json({ message: 'Tag added successfully'});
+  } catch (error) {
+    console.error('Error adding tag to kit:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 
 // POST route to like a review
 app.post('/api/kits/review/like', authenticateToken, async (req, res) => {
@@ -216,6 +261,30 @@ app.post('/api/user/update', authenticateToken, async (req, res) => {
   }
 });
 
+app.post('/api/user/profile-picture', async (req, res) => {
+  const { username, profilePicture } = req.body;
+
+  try {
+    // Find the user by username
+    const user = await User.findOne({ username });
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Update the user's profile picture
+    user.profilePicture = profilePicture;
+
+    // Save the updated user object
+    await user.save();
+
+    res.json({ message: 'Profile picture updated successfully' });
+  } catch (error) {
+    console.error('Error updating profile picture:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
 // Adds gunpla to user collection, uses token to derive user
 app.post('/api/user/collection/add', authenticateToken, async (req, res) => {
   try {
@@ -282,6 +351,29 @@ app.post('/api/user/collection/add', authenticateToken, async (req, res) => {
   }
 });
 
+app.post('/api/user/collection/add-image', authenticateToken, async (req, res) =>{
+  const { kitId, imageUrl } = req.body;
+  const username = req.user.username;
+  try {
+    const collection = await Collection.findOneAndUpdate(
+      { username, 'collection.kitId': kitId },
+      { $set: { 'collection.$.image': imageUrl } },
+      { new: true }
+    );
+
+    if (!collection) {
+      return res.status(404).json({ message: 'Collection item not found'});
+
+    }
+
+    res.json(collection);
+  } catch (error) {
+    console.error('Error adding image:', error);
+    res.status(500).json({ message: 'Internal server error' });
+}
+});
+
+
 // Removes kit from user collection, uses token to derive user
 app.post('/api/user/collection/remove', authenticateToken, async (req, res) => {
   try {
@@ -313,7 +405,7 @@ app.post('/api/user/collection/remove', authenticateToken, async (req, res) => {
 
 
 //Fetch users collection using username
-app.get('/api/user/collection/:username', async (req, res) => {
+app.get('/api/user/collection/fetch/:username', async (req, res) => {
   try {
     const userCollection = await Collection.findOne({ username: req.params.username});
     if (!userCollection) {
@@ -329,7 +421,7 @@ app.get('/api/user/collection/:username', async (req, res) => {
 
 
 //Fetches user using username
-app.get('/api/user/:username', async (req, res) =>{
+app.get('/api/user/fetch/:username', async (req, res) =>{
   try {
     // Use username to find user in the database
     const user = await User.findOne({ username: req.params.username });
@@ -411,6 +503,183 @@ app.post('/api/login', async (req, res) =>{
   } catch (error) {
       console.error('Error occurred during login:', error);
       res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// Create a friend request between users
+app.post('/api/friends/request', authenticateToken, async (req, res) => {
+  const { sender, receiver } = req.body;
+  if (sender === req.user.username) {
+    try {
+      // Check if an existing (non-rejected) or pending relationship exists
+      const existingFriendship = await Friendship.findOne({
+        $or: [
+          { sender: sender, receiver: receiver, status: { $ne: 'rejected' } },
+          { receiver: sender, sender: receiver, status: { $ne: 'rejected' } }
+        ]
+      });
+  
+      if (existingFriendship) {
+        return res.status(400).json({ error: 'User relationship already exists'});
+      }
+  
+      // Create a new pending friendship
+      const newFriendship = new Friendship({
+        sender: sender,
+        receiver: receiver,
+        status: 'pending'
+      });
+  
+      await newFriendship.save();
+  
+      res.status(201).json({ message: 'Friend request sent successfully' });
+    } catch (error) {
+      console.error('Error sending friend request:', error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  } else {
+    res.status(401).json({ error: 'Unauthorized' });
+  }
+
+
+});
+
+// Check if users are friends
+app.post('/api/friends/users', async (req, res) => {
+  const { sender, receiver } = req.body;
+  try {
+    // Check if an existing (non-rejected) or pending relationship exists
+    const existingFriendship = await Friendship.findOne({
+      $or: [
+        { sender: sender, receiver: receiver, status: 'pending'},
+        { receiver: sender, sender: receiver, status: 'pending'},
+      ]
+    });
+    if (existingFriendship) {
+      return res.status(200).json({ message: 'User relationship already exists'});
+    }
+    return res.status(200).json({message: 'No user relationship'});
+  } catch (error) {
+    console.error('Error checking friendship:', error);
+    res.status(500).json({ error: 'Internal server error'});
+  }
+});
+
+// Fetch users friends
+app.get('/api/friends/fetch/:username', async (req, res) => {
+  const { username } = req.params;
+  try {
+    // Find friendships where the user is the source or target
+    const friendships = await Friendship.find({
+      $or: [{ sender: username }, { receiver: username }],
+      status: 'accepted',
+    });
+    // Extract usernames of friends
+    const friends = friendships.map(friendship => {
+      return friendship.sender === username
+        ? friendship.receiver
+        : friendship.sender;
+    });
+    res.json(friends);
+  } catch (error) {
+    console.error('Error fetching user\'s friends:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+})
+
+// Fetch users friend requests
+app.get('/api/friends/requests/:username', async (req, res) => {
+  const { username } = req.params;
+  try {
+    // Find pending friendships where the user target
+    const pendingFriendshipRequests = await Friendship.find({
+      receiver: username,
+      status: 'pending'
+    });
+
+    res.json(pendingFriendshipRequests);
+  } catch (error) {
+    console.error('Error fetching user\'s friends:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+})
+
+// Accept friend request
+app.post('/api/friends/accept', authenticateToken, async (req, res) => {
+  const { sender, receiver } = req.body;
+  if (receiver === req.user.username) {
+  try {
+    // Update the friendship status to 'accepted'
+    const result = await Friendship.findOneAndUpdate(
+      { sender: sender, receiver: receiver },
+      { $set: { status: 'accepted' } }
+    );
+
+    if (result.nModified > 0) {
+      res.status(200).json({ message: 'Friend request accepted successfully' });
+    } else {
+      res.status(404).json({ error: 'Friend request not found' });
+    }
+  } catch (error) {
+    console.error('Error accepting friend request:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  } 
+  } else {
+    res.status(401).json({ error: 'Unauthorized' });
+  }
+});
+
+// Reject friend request
+app.post('/api/friends/reject', authenticateToken, async (req, res) => {
+  const { sender, receiver } = req.body;
+  if (receiver === req.user.username) {
+    try {
+      // Remove the friendship entry
+      const denyRequest = await Friendship.findOneAndDelete({
+        $or: [
+          { sender: sender, receiver: receiver},
+          { receiver: sender, sender: receiver},
+        ]
+      });
+      if (!denyRequest) {
+        // No document found, return an appropriate response
+        return res.status(404).json({ error: 'Friend request not found' });
+      }
+      // Successfully removed the friend request
+      res.status(200).json({ message: 'Friend request rejected successfully' });
+    } catch (error) {
+      console.error('Error rejecting friend request:', error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  } else {
+    res.status(401).json({ error: 'Unauthorized' });
+  }
+});
+
+// Delete friend 
+app.post('/api/friends/delete', authenticateToken, async (req, res) => {
+  const { sender, receiver } = req.body;
+  if (sender === req.user.username) {  
+    try {
+      // Remove the friendship entry
+      const denyRequest = await Friendship.findOneAndDelete({
+        $or: [
+          { sender: sender, receiver: receiver,},
+          { receiver: sender, sender: receiver,},
+        ]
+      });
+      if (!denyRequest) {
+        // No document found, return an appropriate response
+        return res.status(404).json({ error: 'Friend request not found' });
+      }
+      // Successfully removed the friend request
+      res.status(200).json({ message: 'Friend request rejected successfully' });
+    } catch (error) {
+      console.error('Error rejecting friend request:', error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  } else {
+    res.status(401).json({ error: 'Unauthorized' });
   }
 });
 

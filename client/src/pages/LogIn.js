@@ -17,6 +17,7 @@ export default function Login() {
             const { token } = response.data;
             login(token);
             navigate('/')
+            window.location.reload();
         } catch (error) {
             console.error('Login error:', error);
         }

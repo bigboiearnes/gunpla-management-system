@@ -5,27 +5,34 @@ Website Changelog/To-do:
 	Database page recognises whether an item is in a users collection or not 🗸
 	Fixing password registration error 🗸
 	Redo collection to list 🗸
-
-Remove from collection button on collection and database pages 🗸
-Add KitIDs to collection page 🗸
-Add Work in Progress status and allow ratings up to 10 for collection 🗸
-
-Review section on database page:
-	Overhaul reviews to be an array within a collection item
-	One review per item per user
-	Allow links to reviews within a profile page 
-
-next page button removes query
-
-Create logo and icons for navbar
-Friend system
-Allow users to add tags to database items
-Collection page sorts
-Link image to collection item
+0.3.0
+	Remove from collection button on collection and database pages 🗸
+	Add KitIDs to collection page 🗸
+	Add Work in Progress status and allow ratings up to 10 for collection 🗸
+	Review section on database page: 🗸
+		Overhaul reviews to be an array within a collection item 🗸
+		One review per item per user 🗸
+		Review like and dislike system 🗸
+	Create logo and icons for navbar 🗸
+0.4.0
+	Friend system 🗸
+		Add other users as friends 🗸
+		Accept and deny friend requests 🗸
+		Delete friends 🗸
+		Show friends on profile page 🗸
+		Show 'Send Friend Request' button under proper conditions 🗸
+		Add pending friend notifications to NavBar 🗸
+	Tag system
+		users can add tags to any database item 🗸
+		they can add up to 5 tags per item 🗸
+		tags will group up and order in size 🗸
+	Collection page sorts 🗸
+	Link image to collection item 🗸
+	Show images in profile 🗸
+	Account Profile picture 🗸
 
 Add home page:
 	Work out a recommendation algorithm (use collection tags?)
-
 Link matching kits
 
 REVIEW RESEARCH TO ADD TO THIS PAGE!!!

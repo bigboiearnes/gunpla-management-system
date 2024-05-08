@@ -16,7 +16,7 @@ function UserReviews ({ selectedStatus, selectedRating, kitId, reviewers, token 
             const collectionPromises = reviewers.map(async (reviewer) => {
                 const username = typeof reviewer === 'object' ? reviewer.username : reviewer;
                 try {
-                    const response = await axios.get(`/api/user/collection/${username}`);
+                    const response = await axios.get(`/api/user/collection/fetch/${username}`);
                     const collectionData = response.data; // Assuming the response contains the data directly
                     // Find the item with the review property
                     const reviewItem = collectionData.collection.find(item => item.kitId === kitId);
@@ -29,6 +29,7 @@ function UserReviews ({ selectedStatus, selectedRating, kitId, reviewers, token 
                         review: reviewItem.review,
                         rating: reviewItem.rating,
                         status: reviewItem.status,
+                        image: reviewItem.image,
                         likes: reviewer.reviewLikes.length,
                         dislikes: reviewer.reviewDislikes.length
                     };
@@ -239,15 +240,22 @@ function UserReviews ({ selectedStatus, selectedRating, kitId, reviewers, token 
                                 <div className="review-head">
                                     <a className='review-reviewer' href={`/profile/${review.username}`}>{review.username}</a>
                                     <div className="review-stats">
-                                    <p className="review-stat">{getStatusLabel(review.status)}</p>
-                                    <p className="review-stat">{getRatingLabel(review.rating)}</p>
+                                        <p className="review-stat">{getStatusLabel(review.status)}</p>
+                                        <p className="review-stat">{getRatingLabel(review.rating)}</p>
+                                    </div>
+                                    <div className="review-like-buttons">
+                                        <button onClick={() => handleLikeReview(kitId, review.username)}>Likes: {review.likes}</button>
+                                        <button onClick={() => handleDislikeReview(kitId, review.username)}>Dislikes: {review.dislikes}</button>
+                                        <p className="review-content">{getReviewText(review.review)}</p>
                                     </div>
                                 </div>
-                                <p className="review-content">{getReviewText(review.review)}</p>
-                                <div className="review-like-buttons">
-                                <button onClick={() => handleLikeReview(kitId, review.username)}>Likes: {review.likes}</button>
-                                    <button onClick={() => handleDislikeReview(kitId, review.username)}>Dislikes: {review.dislikes}</button>
+                                <div className="review-content-wrapper">
+                                
+                                {review.image &&
+                                <img className='collection-image' src={review.image} alt={review.kitId}/>
+                                }
                                 </div>
+                                
                             </div>
                         ))}
                     </div>

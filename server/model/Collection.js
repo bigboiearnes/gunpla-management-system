@@ -2,9 +2,10 @@ const mongoose = require('mongoose');
 
 const collectionItemSchema = new mongoose.Schema({
   kitId: String,
-  status: String, //built, owned, or wishlisted.
+  status: String, 
   rating: Number, //1-5
-  review: String
+  review: String,
+  image: String // URL pointing to image of user build
 });
 
 const userCollectionSchema = new mongoose.Schema({

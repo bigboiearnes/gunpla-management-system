@@ -10,6 +10,7 @@
 .database-kit-content-wrapper {
     flex-direction: column;
     width: max-content;
+    height: max-content;
     display: flex;
     flex: content;
 }
@@ -69,9 +70,29 @@
     min-height: 20%;
 }
 
+.database-kit-tag-list {
+    margin: 10px;
+    padding: 5px;
+    border-radius: 15px;
+    background-color: lightgray;
+}
+
 .database-kit-accessories-list {
     margin: 10px;
+    padding: 5px;
+    border-radius: 15px;
+    background-color: lightgray;
 }
+
+.user-tag {
+    background-color: white;
+    padding: 6px;
+    margin: 5px;
+    border-radius: 20px;
+    border: 2px rgb(128, 0, 0) solid;
+}
+
+
 
 @media (max-width: 640px) {
     .database-kit-page-wrapper {

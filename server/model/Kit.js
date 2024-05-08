@@ -20,7 +20,11 @@ const kitSchema = new mongoose.Schema({
   accessories: [String], 
   biography: String,
   timeline: String,
-  usersReviewed: [usersReviewedSchema]
+  usersReviewed: [usersReviewedSchema],
+  userTags: [{
+    tag: String,
+    username: String
+  }]
 });
 
 module.exports = mongoose.model('Kit', kitSchema, 'gmskits');

@@ -1,5 +1,8 @@
 import React, { useState, useEffect} from 'react';
 import { useParams } from 'react-router-dom';
+import Filter from "bad-words";
+import axios from 'axios';
+
 
 import useFetchKit from '../components/FetchKits';
 import { useAuth } from '../components/AuthContext';
@@ -23,6 +26,9 @@ export default function Database(){
   const [kitInCollection, setKitInCollection] = useState(false);
   const [selectedStatus, setSelectedStatus] = useState(0);
   const [selectedRating, setSelectedRating] = useState(0);
+  const [showAddTags, setShowAddTags] = useState(false);
+  const [tagInput, setTagInput] = useState(null);
+  const [tagWarningLabel, setTagWarningLabel] = useState('');
 
   // Page load handler
   useEffect(() => {
@@ -49,7 +55,7 @@ export default function Database(){
   useEffect(() => {
     const checkKitInCollection = async () => {
       try {
-        const response = await fetch(`/api/user/collection/${user.username}`);
+        const response = await fetch(`/api/user/collection/fetch/${user.username}`);
 
         if (!response.ok) {
           throw new Error('Failed to fetch data');
@@ -62,7 +68,9 @@ export default function Database(){
             setKitInCollection(true);
             setSelectedRating(item.rating);
             setSelectedStatus(item.status);
+            return true; // Explicitly return true if condition is met
           }
+          return false; // Explicitly return false if condition is not met
         })) {
           
         }
@@ -78,18 +86,51 @@ export default function Database(){
 
   const handleAddToCollection = async () => {
     await AddToCollection({ token, selectedStatus, selectedRating, kitId: kit.kitId })
-    // Refresh the page to show updated information
-    window.location.reload();  
+    setKitInCollection(true);
   };
 
   const handleRemoveFromCollection = async () => {
     const confirm = window.confirm('Are you sure you want to remove this kit from your collection? This will delete any existing review for this kit!')
     if (confirm) {
+      setKitInCollection(false) 
+      setSelectedRating(0)
+      setSelectedStatus(0)
       await RemoveFromCollection({ kitId: kit.kitId, token })
+       
     }
-    // Refresh the page to show updated information
-    window.location.reload();   
+     
   }
+
+  const handleAddTag = async () => {
+    try {
+      const filter = new Filter();
+      let tag = filter.clean(tagInput)
+      if (tag === tagInput) {
+        if (tag.length < 20) {
+          tag = tag.toLowerCase();
+          const response = await axios.post('/api/kits/tag/add', { kitId, tag }, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+
+          if (!response.data) {
+            throw new Error('Failed to add tag')
+          }
+          window.location.reload();
+        } else {
+          setTagWarningLabel("Tag can not be longer than 20 characters!")
+        }
+      } else {
+        setTagWarningLabel("Tag was filtered for profanity, please try again.")
+      }
+
+    } catch (error) {
+      console.error('Error adding tag:', error)
+    }
+  };
+  
+
 
   if (loading) {
     return <div>Loading...</div>;
@@ -109,6 +150,10 @@ export default function Database(){
 
   if (!kit.usersReviewed) {
     kit.usersReviewed = [];
+  }
+
+  if (!kit.userTags) {
+    kit.userTags = [];
   }
 
   return (
@@ -180,6 +225,53 @@ export default function Database(){
                   </ul>
                 </div>
               )}
+              <div className='database-kit-tag-list'>
+                <h3>Tags:</h3>
+                <p className='database-tag'>
+                  {Object.entries(
+                    kit.userTags.reduce((acc, curr) => {
+                      acc[curr.tag] = (acc[curr.tag] || 0) + 1;
+                      return acc;
+                    }, {})
+                  )
+                    .sort(([, countA], [, countB]) => countB - countA) // Sort by count in descending order
+                    .map(([tag, count]) => (
+                      <span className='user-tag' key={tag}>
+                        {tag} ({count})
+                      </span>
+                    ))}
+                </p>
+                { token &&
+                  <div>
+                <button 
+                className='database-show-tags-button'
+                onClick={() => setShowAddTags(!showAddTags)}>
+                Add Tag</button>
+                {showAddTags && (
+                  <div className='add-tags-input-wrapper'>
+                    <label>Add a tag for this kit. It can be anything from difficulty, to general descriptors</label>
+                    <div>
+                    <input 
+                      className='add-tag-input'
+                      placeholder='Tag'
+                      value={tagInput}
+                      onChange={(e) => setTagInput(e.target.value)}
+                    />
+                    <button
+                    className='add-tag-submit'
+                    onClick={handleAddTag}>Submit</button>
+                    </div>
+                    <label 
+                    value={tagWarningLabel}
+                    onChange={(e) => setTagWarningLabel(e.target.value)}>
+                      
+                    </label>
+                  </div>
+                
+                  )}
+                </div>
+                }
+              </div>
           </div>
         </div>
         <UserReviews 

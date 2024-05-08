@@ -139,6 +139,43 @@
     width: 100%;
 }
 
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9); /* Semi-transparent black background */
+    z-index: 1000; /* Ensure it appears on top of other elements */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Styles for the pop-up content */
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Shadow effect */
+    max-width: 80%; /* Adjust the width as needed */
+    max-height: 80%; /* Adjust the height as needed */
+    overflow-y: auto; /* Enable scrolling if content exceeds height */
+}
+
+/* Styles for the close button */
+.close-button {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    cursor: pointer;
+}
+
+/* Style to hide scrollbar when modal is open */
+body.modal-open {
+    overflow: hidden;
+}
+
 @media (max-width: 640px) {
     .collection-item-stats {
         flex-direction: column;
