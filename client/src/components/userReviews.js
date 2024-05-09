@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Filter from "bad-words";
-import './UserReviews.css'
+import './userReviews.css'
 
 function UserReviews ({ selectedStatus, selectedRating, kitId, reviewers, token }) {
     const [reviews, setReviews] = useState('');

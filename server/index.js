@@ -12,7 +12,7 @@ const Collection = require('./model/Collection');
 const Friendship = require('./model/Friendship')
 
 const app = express();
-const port = 4000;
+const PORT = process.env.PORT || 4000;
 
 // Connect to MongoDB
 mongoose.connect('mongodb://connorearneybs3221:IwT3a5xY75iviD3407DWDJBUPzcMYZPyCK6rdkSvhPPKnnkNDdHKNh9aVVwScgnBz6Es4EfTr1pxACDbg8AbXw==@connorearneybs3221.mongo.cosmos.azure.com:10255/universitywork?ssl=true&replicaSet=globaldb&retrywrites=false&maxIdleTimeMS=120000&appName=@connorearneybs3221@')
@@ -809,6 +809,6 @@ app.post('/api/friends/delete', authenticateToken, async (req, res) => {
 });
 
 // Start the server
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });

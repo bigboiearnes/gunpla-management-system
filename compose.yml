@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  client:
+    container_name: react-client
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./client:/app/client
+    restart: unless-stopped
+
+  server:
+    container_name: express-server
+    build:
+      context: ./server
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./server:/app/server
+    restart: unless-stopped
