@@ -8,7 +8,7 @@ const useFetchKit = (kitId) => {
   useEffect(() => {
     const fetchKitData = async () => {
       try {
-        const response = await fetch(`/api/kits/${kitId}`);
+        const response = await fetch(`https://gunplamanagementsystemapi.azurewebsites.net/api/kits/${kitId}`);
         if (!response.ok) {
           throw new Error('Failed to fetch data');
         }

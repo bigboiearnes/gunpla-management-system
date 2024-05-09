@@ -12,7 +12,7 @@ export default function RecentUploads() {
     useEffect(() => {
         const fetchRecentUploads = async () => {
             try {
-                const response = await axios.get('/api/friends/recent-uploads', {
+                const response = await axios.get('https://gunplamanagementsystemapi.azurewebsites.net/api/friends/recent-uploads', {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },

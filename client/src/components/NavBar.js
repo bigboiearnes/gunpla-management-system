@@ -19,7 +19,7 @@ export default function NavBar() {
        // Perform when a token exists (the user has logged in)
       const checkTokenValidity = async () => {
         try {
-          await axios.get('/api/user/check-token', {
+          await axios.get('https://gunplamanagementsystemapi.azurewebsites.net/api/user/check-token', {
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -54,7 +54,7 @@ export default function NavBar() {
   useEffect(() => {
     const fetchPendingRequests = async () => {
       try {
-        const response = await axios.get(`/api/friends/requests/${username}`, {
+        const response = await axios.get(`https://gunplamanagementsystemapi.azurewebsites.net/api/friends/requests/${username}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -72,7 +72,7 @@ export default function NavBar() {
 
   const handleAcceptRequest = async (sender) => {
     try {
-      await axios.post('/api/friends/accept', {
+      await axios.post('https://gunplamanagementsystemapi.azurewebsites.net/api/friends/accept', {
         sender,
         receiver: username,
       }, {
@@ -90,7 +90,7 @@ export default function NavBar() {
 
   const handleRejectRequest = async (sender) => {
     try {
-      await axios.post('/api/friends/reject', {
+      await axios.post('https://gunplamanagementsystemapi.azurewebsites.net/api/friends/reject', {
         sender,
         receiver: username,
       }, {

@@ -9,7 +9,7 @@ const RemoveFromCollection = async ({ kitId, token }) => {
         }
 
         // Post kitId and authentication to API
-        const response = await axios.post('/api/user/collection/remove', { kitId }, {
+        const response = await axios.post('https://gunplamanagementsystemapi.azurewebsites.net/api/user/collection/remove', { kitId }, {
         headers: {
             Authorization: `Bearer ${token}`,
         },

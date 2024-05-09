@@ -11,8 +11,8 @@ const FetchFriends = ({ targetUser, username, token }) => {
   useEffect(() => {
     const fetchFriendsData = async () => {
       try {
-        const response = await axios.get(`/api/friends/fetch/${targetUser}`);
-        const friendshipStatus = await axios.post('/api/friends/users', {
+        const response = await axios.get(`https://gunplamanagementsystemapi.azurewebsites.net/api/friends/fetch/${targetUser}`);
+        const friendshipStatus = await axios.post('https://gunplamanagementsystemapi.azurewebsites.net/api/friends/users', {
             sender: username,
             receiver: targetUser
         });
@@ -34,7 +34,7 @@ const FetchFriends = ({ targetUser, username, token }) => {
   const handleSendFriendRequest = async () => {
     try {
         console.log(username, targetUser);
-        await axios.post('/api/friends/request', {
+        await axios.post('https://gunplamanagementsystemapi.azurewebsites.net/api/friends/request', {
             sender: username,
             receiver: targetUser
           }, {
@@ -52,7 +52,7 @@ const FetchFriends = ({ targetUser, username, token }) => {
 
     const handleDeleteFriend = async (friend) => {
         try {
-            await axios.post('/api/friends/delete', {
+            await axios.post('https://gunplamanagementsystemapi.azurewebsites.net/api/friends/delete', {
               sender: username,
               receiver: friend,
             }, {

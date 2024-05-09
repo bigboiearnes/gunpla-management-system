@@ -34,7 +34,7 @@ export default function Search() {
         try {
             setLoading(true);
 
-            const response = await axios.get('/api/kits/search/', {
+            const response = await axios.get('https://gunplamanagementsystemapi.azurewebsites.net/api/kits/search/', {
                 params: {
                     query: query,
                     page: page,

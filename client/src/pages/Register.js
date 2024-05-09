@@ -28,7 +28,7 @@ export default function Register() {
                     if (validator.isAlphanumeric(username) && (username.length < 21)) {
                         // Pass details to the API
 
-                        await axios.post('/api/register', { username, email, password, biography });
+                        await axios.post('https://gunplamanagementsystemapi.azurewebsites.net/api/register', { username, email, password, biography });
                         console.log('User registered successfully');
                         navigate('/login')
                     } else {

@@ -47,7 +47,7 @@ export default function Profile(){
     const selectedImage = event.target.value;
     // Send request to backend to update user's profile picture
     try {
-      await axios.post('/api/user/profile-picture', { username: currentUser.username, profilePicture: selectedImage });
+      await axios.post('https://gunplamanagementsystemapi.azurewebsites.net/api/user/profile-picture', { username: currentUser.username, profilePicture: selectedImage });
       // Update local state with selected image
       setSelectedImage(selectedImage);
     } catch (error) {
@@ -95,7 +95,7 @@ export default function Profile(){
       biography,
     }
     // Post details and authentication to API
-    const response = await axios.post('/api/user/update', payload, {
+    const response = await axios.post('https://gunplamanagementsystemapi.azurewebsites.net/api/user/update', payload, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

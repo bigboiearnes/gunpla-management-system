@@ -7,7 +7,7 @@ export default function RecentlyReleasedKits() {
     useEffect(() => {
         const fetchRecentlyReleasedKits = async () => {
             try {
-                const response = await fetch('/api/kits/get/recently-released');
+                const response = await fetch('https://gunplamanagementsystemapi.azurewebsites.net/api/kits/get/recently-released');
                 if (!response.ok) {
                     throw new Error('Failed to fetch recently released kits');
                 }

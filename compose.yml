@@ -2,10 +2,7 @@ version: '3.8'
 
 services:
   client:
-    container_name: react-client
-    build:
-      context: ./client
-      dockerfile: Dockerfile
+    image: bigboiearnes/gms-client:latest
     ports:
       - "3000:3000"
     volumes:
@@ -13,9 +10,7 @@ services:
     restart: unless-stopped
 
   server:
-    container_name: express-server
-    build:
-      context: ./server
+    image: bigboiearnes/gms-api:latest
     ports:
       - "4000:4000"
     volumes:

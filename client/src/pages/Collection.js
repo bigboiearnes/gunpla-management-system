@@ -123,7 +123,7 @@ export default function Collection() {
             const fetchKits = async () => {
                 const kitDetails = await Promise.all(targetUser.collection.map(async (item) => {
                     try {
-                        const response = await fetch(`/api/kits/${item.kitId}`);
+                        const response = await fetch(`https://gunplamanagementsystemapi.azurewebsites.net/api/kits/${item.kitId}`);
                         if (!response.ok) {
                             throw new Error('Failed to fetch kit details');
                         }
@@ -143,7 +143,7 @@ export default function Collection() {
     const handleAddImageSubmit = async (collectionItem) => {
       try {
           // Make POST request to add image
-          await axios.post('/api/user/collection/add-image', {
+          await axios.post('https://gunplamanagementsystemapi.azurewebsites.net/api/user/collection/add-image', {
               kitId: collectionItem.kitId,
               imageUrl: imageUrl
           },{

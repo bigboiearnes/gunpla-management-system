@@ -1,7 +1,7 @@
 // Fetch current user's username using their token
 export const fetchUserAuth = async (token) => {
     try {
-      const response = await fetch('/api/user', {
+      const response = await fetch('https://gunplamanagementsystemapi.azurewebsites.net/api/user', {
         method: 'GET',
         headers: {
           'authorization': `Bearer ${token}`

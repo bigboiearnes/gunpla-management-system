@@ -56,7 +56,7 @@ export default function Database(){
   useEffect(() => {
     const checkKitInCollection = async () => {
       try {
-        const response = await fetch(`/api/user/collection/fetch/${user.username}`);
+        const response = await fetch(`https://gunplamanagementsystemapi.azurewebsites.net/api/user/collection/fetch/${user.username}`);
 
         if (!response.ok) {
           throw new Error('Failed to fetch data');
@@ -87,7 +87,7 @@ export default function Database(){
     // Fetch related kits
     const fetchRelatedKits = async () => {
       try {
-        const response = await axios.get(`/api/kits/related`, {
+        const response = await axios.get(`https://gunplamanagementsystemapi.azurewebsites.net/api/kits/related`, {
           params: {
             gundamModel: kit.gundamModel
           }
@@ -128,7 +128,7 @@ export default function Database(){
       if (tag === tagInput) {
         if (tag.length < 20) {
           tag = tag.toLowerCase();
-          const response = await axios.post('/api/kits/tag/add', { kitId, tag }, {
+          const response = await axios.post('https://gunplamanagementsystemapi.azurewebsites.net/api/kits/tag/add', { kitId, tag }, {
             headers: {
               Authorization: `Bearer ${token}`,
             },

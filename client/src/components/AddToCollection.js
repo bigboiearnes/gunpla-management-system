@@ -20,7 +20,7 @@ const AddToCollection = async ({token, selectedStatus, selectedRating, kitId}) =
 
 
     // Post details and authentication to API
-    const response = await axios.post('/api/user/collection/add', payload, {
+    const response = await axios.post('https://gunplamanagementsystemapi.azurewebsites.net/api/user/collection/add', payload, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

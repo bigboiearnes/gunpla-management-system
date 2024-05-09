@@ -13,7 +13,7 @@ export default function Login() {
 
     const handleLogin = async () => {
         try {
-            const response = await axios.post('/api/login', { username, password });
+            const response = await axios.post('https://gunplamanagementsystemapi.azurewebsites.net/api/login', { username, password });
             const { token } = response.data;
             login(token);
             navigate('/')
