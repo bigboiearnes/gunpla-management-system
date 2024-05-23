@@ -81,8 +81,7 @@ export default function NavBar() {
         }
       });
       // Remove the accepted request from the list
-      setPendingRequests(pendingRequests.filter(request => request.sender !== sender));
-      window.location.reload();
+      setPendingRequests(prevRequests => prevRequests.filter(request => request.sender !== sender));
     } catch (error) {
       console.error('Error accepting friend request:', error);
     }
@@ -99,8 +98,7 @@ export default function NavBar() {
         }
       });
       // Remove the rejected request from the list
-      setPendingRequests(pendingRequests.filter(request => request.sender !== sender));
-      window.location.reload();
+      setPendingRequests(prevRequests => prevRequests.filter(request => request.sender !== sender));
     } catch (error) {
       console.error('Error rejecting friend request:', error);
     }
@@ -110,14 +108,14 @@ export default function NavBar() {
     <div className='nav-bar-container'>
       <NavLink to='/'>
       <img
-       src='https://i.ibb.co/pzGgbcc/logo192.png' 
+       src='https://i.imgur.com/7RScxSo.png' 
        alt='GUNPLA MANAGEMENT SYSTEM' 
        className='website-title' />
       </NavLink>
-      <nav className='nav-search-icon'>
+      <nav className='nav-search-icon-wrapper'>
         <NavLink to="/search">
           <img 
-            src='https://i.ibb.co/1TFx9t8/Search.jpg'
+            src='https://i.imgur.com/Oj37bl3.jpg'
             alt='Search'
             className='nav-search-icon'
           />
@@ -128,7 +126,7 @@ export default function NavBar() {
           <nav className='nav-bar-profile-nav'>
             <NavLink to={`/collection/${username}`}>
               <img 
-                src='https://i.ibb.co/dBrR3sk/Collection.jpg'
+                src='https://i.imgur.com/VnEg1Df.jpg'
                 alt='Collection'
                 className='nav-collection-icon'
               />

@@ -15,6 +15,7 @@
     margin-right: 0px;
     color: rgb(255, 255, 255);
     font-size: xx-large;
+    border-radius: 15px;
     font-family:'Compacta', 'Impact';
     text-decoration: none;
     -webkit-text-stroke-width: 1px;
@@ -59,14 +60,10 @@
     padding: 6px;
 }
 
-.nav-bar-search-bar {
-    max-height: 20px;
+.nav-search-icon-wrapper {
+    display: flex;
     align-self: center;
-    width: 19%;
-    margin: 5px;
-    border-radius: 5px;
-    min-width: 150px;
-    
+    padding: auto;
 }
 
 .nav-bar-profile-nav {

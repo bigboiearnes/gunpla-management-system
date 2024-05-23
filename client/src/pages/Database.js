@@ -176,6 +176,8 @@ export default function Database(){
     kit.userTags = [];
   }
 
+  
+
   return (
       <div>
         <div className='database-kit-page-wrapper'>
@@ -183,6 +185,7 @@ export default function Database(){
             <h1 className='database-kit-name'>{kit.kitName}</h1>
             <img className='database-kit-box-art' src={kit.boxArt} alt={kit.kitName}></img>
             <h3 className='database-kit-model'>{kit.kitGrade}</h3>
+            <h3 className='database-kit-model'>Mean Score: {kit.userScore ? kit.userScore.toFixed(2) : 0}</h3>
             <h3 className='database-kit-model'>Suit Model: {kit.gundamModel}</h3>
             <h3 className='database-kit-model'>Timeline: {kit.timeline}</h3>
             <h3 className='database-kit-model'>Scale: {kit.scale}</h3>

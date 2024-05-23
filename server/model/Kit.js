@@ -24,7 +24,8 @@ const kitSchema = new mongoose.Schema({
   userTags: [{
     tag: String,
     username: String
-  }]
+  }],
+  userScore: Number
 });
 
 module.exports = mongoose.model('Kit', kitSchema, 'gmskits');

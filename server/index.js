@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 const cors = require('cors')
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
+const cron = require('node-cron')
 const authenticateToken = require('./authenticateToken')
 
 const Kit = require('./model/Kit');
@@ -23,7 +24,47 @@ mongoose.connect('mongodb://connorearneybs3221:IwT3a5xY75iviD3407DWDJBUPzcMYZPyC
 app.use(bodyParser.json());
 app.use(cors())
 
+// Update kit scores
+const updateKitScores = async () => {
+  try {
+    const kits = await Kit.find();
 
+    for (const kit of kits) {
+      const collections = await Collection.find({
+        'collection.kitId': kit.kitId,
+        'collection.rating': { $exists: true }
+      });
+
+      let totalScore = 0;
+      let count = 0;
+
+      collections.forEach(collection => {
+        collection.collection.forEach(item => {
+          if (item.kitId === kit.kitId && item.rating) {
+            totalScore += item.rating;
+            count++;
+          }
+        });
+      });
+
+      if (count > 0) {
+        const meanScore = totalScore / count;
+        if (kit.userScore !== meanScore) {
+          kit.userScore = meanScore;
+          await kit.save();
+        }
+      }
+    }
+  } catch (error) {
+    console.error('Error updating kit scores:', error);
+  }
+};
+
+// Once a day, at midnight, update the kit scores.
+cron.schedule('0 0 * * *', () => {
+  console.log('Running daily update of kit scores');
+  updateKitScores();
+});
 
 // Searches kits for query and returns matches
 app.get('/api/kits/search', async (req, res) => {
@@ -454,7 +495,6 @@ app.post('/api/user/collection/add-image', authenticateToken, async (req, res) =
 }
 });
 
-
 // Removes kit from user collection, uses token to derive user
 app.post('/api/user/collection/remove', authenticateToken, async (req, res) => {
   try {
@@ -484,7 +524,6 @@ app.post('/api/user/collection/remove', authenticateToken, async (req, res) => {
     }
 });
 
-
 //Fetch users collection using username
 app.get('/api/user/collection/fetch/:username', async (req, res) => {
   try {
@@ -499,7 +538,6 @@ app.get('/api/user/collection/fetch/:username', async (req, res) => {
     res.status(500).json({ error: 'Internal server error'})
   }
 });
-
 
 //Fetches user using username
 app.get('/api/user/fetch/:username', async (req, res) =>{
@@ -728,27 +766,27 @@ app.get('/api/friends/recent-uploads', authenticateToken, async (req, res) => {
   } 
 });
 
-
 // Accept friend request
 app.post('/api/friends/accept', authenticateToken, async (req, res) => {
   const { sender, receiver } = req.body;
   if (receiver === req.user.username) {
-  try {
-    // Update the friendship status to 'accepted'
-    const result = await Friendship.findOneAndUpdate(
-      { sender: sender, receiver: receiver },
-      { $set: { status: 'accepted' } }
-    );
+    try { 
+      // Update the friendship status to 'accepted'
+      const result = await Friendship.findOneAndUpdate(
+        { sender: sender, receiver: receiver },
+        { $set: { status: 'accepted' } },
+        { new: true } // Return the updated document
+      );
 
-    if (result.nModified > 0) {
-      res.status(200).json({ message: 'Friend request accepted successfully' });
-    } else {
-      res.status(404).json({ error: 'Friend request not found' });
+      if (result) {
+        res.status(200).json({ message: 'Friend request accepted successfully' });
+      } else {
+        res.status(404).json({ error: 'Friend request not found' });
+      }
+    } catch (error) {
+      console.error('Error accepting friend request:', error);
+      res.status(500).json({ error: 'Internal server error' });
     }
-  } catch (error) {
-    console.error('Error accepting friend request:', error);
-    res.status(500).json({ error: 'Internal server error' });
-  } 
   } else {
     res.status(401).json({ error: 'Unauthorized' });
   }
